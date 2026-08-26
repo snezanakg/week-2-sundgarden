@@ -14,3 +14,19 @@ const describeStudent = (
 };
 
 console.log(describeStudent(studentName, studentAge));
+
+// Task 3 — Greeting with Optional Parameter
+
+const formatGreeting = (
+  name: string,
+  formal?: boolean
+): string => {
+  if (formal) {
+    return `Good day, ${name}.`;
+  }
+
+  return `Hi ${name}!`;
+};
+
+console.log(formatGreeting("Snezana", true));
+console.log(formatGreeting("Snezana"));

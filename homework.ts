@@ -60,3 +60,22 @@ const shortNames: string[] = names.filter(
 );
 
 console.log("Short names:", shortNames);
+
+
+
+// Task 6 — Book Interface
+
+interface Book {
+  title: string;
+  author: string;
+  pages: number;
+}
+
+const book: Book = {
+  title: "The Hobbit",
+  author: "J.R.R. Tolkien",
+  pages: 310
+};
+
+console.log("Book:", book);
+console.log("Book title:", book.title);

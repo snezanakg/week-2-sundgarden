@@ -79,3 +79,37 @@ const book: Book = {
 
 console.log("Book:", book);
 console.log("Book title:", book.title);
+
+
+// Task 7 — Address and Person Interfaces
+
+interface Address {
+  city: string;
+  postalCode?: string;
+}
+
+interface Person {
+  name: string;
+  age: number;
+  address: Address;
+}
+
+const person1: Person = {
+  name: "Snezana",
+  age: 40,
+  address: {
+    city: "Gothenburg",
+    postalCode: "41101"
+  }
+};
+
+const person2: Person = {
+  name: "Alice",
+  age: 8,
+  address: {
+    city: "Gothenburg"
+  }
+};
+
+console.log("Person 1:", person1);
+console.log("Person 2:", person2);

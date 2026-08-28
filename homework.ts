@@ -41,4 +41,22 @@ const agesInFiveYears: number[] = ages.map(
 );
 
 console.log("Ages now:", ages);
-console.log("Ages in five years:", agesInFiveYears);
+console.log("Ages in five years:", agesInFiveYears); 
+
+
+// Task 5 — Filtering Names
+
+const names: string[] = [
+  "Ana",
+  "Luca",
+  "Alice",
+  "Mark",
+  "Snezana",
+  "John"
+];
+
+const shortNames: string[] = names.filter(
+  (name) => name.length <= 4
+);
+
+console.log("Short names:", shortNames);

@@ -30,3 +30,15 @@ const formatGreeting = (
 
 console.log(formatGreeting("Snezana", true));
 console.log(formatGreeting("Snezana"));
+
+
+// Task 4 — Ages with map()
+
+const ages: number[] = [20, 25, 30, 35, 40];
+
+const agesInFiveYears: number[] = ages.map(
+  (age) => age + 5
+);
+
+console.log("Ages now:", ages);
+console.log("Ages in five years:", agesInFiveYears);

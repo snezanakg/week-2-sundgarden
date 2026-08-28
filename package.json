@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/snezanakg/week-2-sundgarden/issues"
   },
-  "homepage": "https://github.com/snezanakg/week-2-sundgarden#readme"
+  "homepage": "https://github.com/snezanakg/week-2-sundgarden#readme",
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
 }

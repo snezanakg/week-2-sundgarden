@@ -155,3 +155,12 @@ const products: Product[] = [
     tags: ["furniture", "office"]
   }
 ];
+
+
+// Task 9 — Filter Products Under 1000
+
+const productsUnder1000: Product[] = products.filter(
+  (product) => product.price < 1000
+);
+
+console.log("Products under 1000:", productsUnder1000);

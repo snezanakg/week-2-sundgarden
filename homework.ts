@@ -113,3 +113,45 @@ const person2: Person = {
 
 console.log("Person 1:", person1);
 console.log("Person 2:", person2);
+
+// Task 8 — Product Interface
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  tags: string[];
+}
+
+const products: Product[] = [
+  {
+    id: 1,
+    name: "Laptop",
+    price: 1200,
+    tags: ["electronics", "computer"]
+  },
+  {
+    id: 2,
+    name: "Mouse",
+    price: 300,
+    tags: ["electronics", "accessory"]
+  },
+  {
+    id: 3,
+    name: "Keyboard",
+    price: 700,
+    tags: ["electronics", "accessory"]
+  },
+  {
+    id: 4,
+    name: "Desk",
+    price: 1500,
+    tags: ["furniture"]
+  },
+  {
+    id: 5,
+    name: "Chair",
+    price: 800,
+    tags: ["furniture", "office"]
+  }
+];

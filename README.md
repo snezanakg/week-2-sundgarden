@@ -1,56 +1,84 @@
-# week-2-sundgarden
-
-# TypeScript Homework
+# Week 2 TypeScript Homework
 
 This repository contains my Week 2 TypeScript homework for Sundsgården Backend Development.
 
-## Topics Practiced
+## What I Practiced
+
+During this assignment I practiced:
 
 - Typed variables
 - Typed functions
 - Optional parameters
 - Typed arrays
-- Array methods such as map() and filter()
-- TypeScript interfaces
+- `map()`
+- `filter()`
+- Chaining array methods
+- Interfaces
 - Nested interfaces
-- Optional object properties
+- Optional properties
 
 ## Completed Tasks
 
-- Student profile with typed variables
-- Typed describeStudent function
-- Greeting with optional parameter
-- Ages using map()
-- Filtering names using filter()
-- Book interface
-- Address and Person interfaces
+1. Student profile with typed variables
+2. Typed `describeStudent` function
+3. Greeting with an optional parameter
+4. Ages using `map()`
+5. Filtering names using `filter()`
+6. Book interface
+7. Address and Person interfaces
+8. Product interface
+9. Filtering products under 1000
+10. Chaining `filter()` and `map()`
 
-## Technologies
+## Technologies Used
 
 - TypeScript
 - Node.js
 - npm
 - Git
 - GitHub
+- VS Code
+- WSL / Ubuntu
 
-## Running the Project
+## Project File
+
+The main assignment file is:
+
+`homework.ts`
+
+## How to Run the Project
+
+First install the dependencies:
+npm install
 
 Compile the TypeScript:
-
-```bash
 npx tsc
 
-Run the compiled JavaScript:
+Run the comipled JavaScript:
 node homework.js
 
-Branch:
+Git Workflow:
+
+The homework was developed on the branch:
 typescrypt-homework
+I used Git regularly during the assignment to:
+- Check changes
+- Commit completed tasks
+- Push changes to GitHub
+- Work with branches
+- Create pull requests
+- Merge completed work into main
+
+Author:
+Snezana Kragujevac
 
 
-Save with **Ctrl + S**.
-
-## Test everything:
+Then save it and commit it on `typescrypt-homework`:
 
 ```bash
-npx tsc
-node homework.js
+git add README.md
+git commit -m "Update README with completed TypeScript tasks"
+git push origin typescrypt-homework
+
+***************After that, the next step is the final pull request and merge.
+

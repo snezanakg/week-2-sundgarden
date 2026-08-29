@@ -113,3 +113,63 @@ const person2: Person = {
 
 console.log("Person 1:", person1);
 console.log("Person 2:", person2);
+
+// Task 8 — Product Interface
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  tags: string[];
+}
+
+const products: Product[] = [
+  {
+    id: 1,
+    name: "Laptop",
+    price: 1200,
+    tags: ["electronics", "computer"]
+  },
+  {
+    id: 2,
+    name: "Mouse",
+    price: 300,
+    tags: ["electronics", "accessory"]
+  },
+  {
+    id: 3,
+    name: "Keyboard",
+    price: 700,
+    tags: ["electronics", "accessory"]
+  },
+  {
+    id: 4,
+    name: "Desk",
+    price: 1500,
+    tags: ["furniture"]
+  },
+  {
+    id: 5,
+    name: "Chair",
+    price: 800,
+    tags: ["furniture", "office"]
+  }
+];
+
+
+// Task 9 — Filter Products Under 1000
+
+const productsUnder1000: Product[] = products.filter(
+  (product) => product.price < 1000
+);
+
+console.log("Products under 1000:", productsUnder1000);
+
+
+// Task 10 — Filter + Map Chaining
+
+const affordableProductNames: string[] = products
+  .filter((product) => product.price < 1000)
+  .map((product) => product.name);
+
+console.log("Affordable product names:", affordableProductNames);

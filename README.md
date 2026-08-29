@@ -72,13 +72,3 @@ I used Git regularly during the assignment to:
 Author:
 Snezana Kragujevac
 
-
-Then save it and commit it on `typescrypt-homework`:
-
-```bash
-git add README.md
-git commit -m "Update README with completed TypeScript tasks"
-git push origin typescrypt-homework
-
-***************After that, the next step is the final pull request and merge.
-

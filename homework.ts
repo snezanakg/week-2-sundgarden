@@ -164,3 +164,12 @@ const productsUnder1000: Product[] = products.filter(
 );
 
 console.log("Products under 1000:", productsUnder1000);
+
+
+// Task 10 — Filter + Map Chaining
+
+const affordableProductNames: string[] = products
+  .filter((product) => product.price < 1000)
+  .map((product) => product.name);
+
+console.log("Affordable product names:", affordableProductNames);

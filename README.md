@@ -69,16 +69,40 @@ I used Git regularly during the assignment to:
 - Create pull requests
 - Merge completed work into main
 
+
+
+## TypeScript Homework Part 2
+
+This homework practices more TypeScript concepts.
+
+### Completed Skills
+
+- Union Types
+  - Created an `IDType` that accepts a `number` or `string`
+  - Created a `showId` function
+
+- Interfaces
+  - Created a `Book` interface
+  - Created a `describeBook` function
+
+- Enums
+  - Created a `Color` enum
+  - Created a `showColor` function
+
+- Generics
+  - Created a generic `wrapInArray<T>` function
+  - Tested it with a string and a number
+
+### Run Part 2
+
+```bash
+npx tsc
+node homework-part2.js
+
+
+
 Author:
 Snezana Kragujevac
 
 
-Then save it and commit it on `typescrypt-homework`:
-
-```bash
-git add README.md
-git commit -m "Update README with completed TypeScript tasks"
-git push origin typescrypt-homework
-
-***************After that, the next step is the final pull request and merge.
 

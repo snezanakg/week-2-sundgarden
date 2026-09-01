@@ -51,3 +51,14 @@ const showColor = (color: Color): string => {
 console.log(showColor(Color.Red));
 console.log(showColor(Color.Green));
 console.log(showColor(Color.Blue));
+
+
+// Skill 4 — Generics
+// Task 4 — Wrap It Up
+
+const wrapInArray = <T>(item: T): T[] => {
+  return [item];
+};
+
+console.log(wrapInArray("cat"));
+console.log(wrapInArray(42));

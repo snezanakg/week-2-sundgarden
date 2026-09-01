@@ -1,0 +1,64 @@
+export {};
+
+// TypeScript Homework Part 2
+
+// Skill 1 — Union Types
+// Task 1 — ID Card
+
+type IDType = number | string;
+
+const showId = (id: IDType): string => {
+  return `Your ID is: ${id}`;
+};
+
+console.log(showId(12345));
+console.log(showId("ABC123"));
+
+
+// Skill 2 — Interfaces & Type Aliases
+// Task 2 — Book Interface
+
+interface Book {
+  title: string;
+  pages: number;
+}
+
+const myBook: Book = {
+  title: "Dune",
+  pages: 412
+};
+
+const describeBook = (book: Book): string => {
+  return `The book ${book.title} has ${book.pages} pages.`;
+};
+
+console.log(describeBook(myBook));
+
+
+// Skill 3 — Enums
+// Task 3 — Color Picker
+
+enum Color {
+  Red,
+  Green,
+  Blue
+}
+
+const showColor = (color: Color): string => {
+  return `You chose ${Color[color]}`;
+};
+
+console.log(showColor(Color.Red));
+console.log(showColor(Color.Green));
+console.log(showColor(Color.Blue));
+
+
+// Skill 4 — Generics
+// Task 4 — Wrap It Up
+
+const wrapInArray = <T>(item: T): T[] => {
+  return [item];
+};
+
+console.log(wrapInArray("cat"));
+console.log(wrapInArray(42));

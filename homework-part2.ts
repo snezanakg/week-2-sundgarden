@@ -33,3 +33,21 @@ const describeBook = (book: Book): string => {
 };
 
 console.log(describeBook(myBook));
+
+
+// Skill 3 — Enums
+// Task 3 — Color Picker
+
+enum Color {
+  Red,
+  Green,
+  Blue
+}
+
+const showColor = (color: Color): string => {
+  return `You chose ${Color[color]}`;
+};
+
+console.log(showColor(Color.Red));
+console.log(showColor(Color.Green));
+console.log(showColor(Color.Blue));

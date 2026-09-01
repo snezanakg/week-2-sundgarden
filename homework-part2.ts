@@ -13,3 +13,23 @@ const showId = (id: IDType): string => {
 
 console.log(showId(12345));
 console.log(showId("ABC123"));
+
+
+// Skill 2 — Interfaces & Type Aliases
+// Task 2 — Book Interface
+
+interface Book {
+  title: string;
+  pages: number;
+}
+
+const myBook: Book = {
+  title: "Dune",
+  pages: 412
+};
+
+const describeBook = (book: Book): string => {
+  return `The book ${book.title} has ${book.pages} pages.`;
+};
+
+console.log(describeBook(myBook));

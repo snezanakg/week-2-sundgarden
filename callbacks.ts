@@ -50,3 +50,22 @@ const showResult: mathFunction = (result: number): void => {
 };
 
 addNumbers(5, 10, showResult);
+
+
+// Task 4 — Uppercase Callback
+
+type uppercaseFunction = (text: string) => void;
+
+const makeUppercase = (
+  text: string,
+  callback: uppercaseFunction
+): void => {
+  const upperText = text.toUpperCase();
+  callback(upperText);
+};
+
+const showUppercase: uppercaseFunction = (text: string): void => {
+  console.log(text);
+};
+
+makeUppercase("hello callback", showUppercase);

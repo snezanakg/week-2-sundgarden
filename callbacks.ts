@@ -69,3 +69,27 @@ const showUppercase: uppercaseFunction = (text: string): void => {
 };
 
 makeUppercase("hello callback", showUppercase);
+
+
+
+
+// Task 5 — Pizza Order
+
+type pizzaCallback = (message: string) => void;
+
+const orderPizza = (
+  pizzaName: string,
+  callback: pizzaCallback
+): void => {
+  console.log(`Ordering ${pizzaName}...`);
+
+  setTimeout(() => {
+    callback(`Your ${pizzaName} pizza is ready!`);
+  }, 2000);
+};
+
+const showPizzaMessage: pizzaCallback = (message: string): void => {
+  console.log(message);
+};
+
+orderPizza("Margherita", showPizzaMessage);

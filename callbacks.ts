@@ -13,3 +13,40 @@ const showHello: helloFunction = (message: string): void => {
 };
 
 helloCallback(showHello);
+
+// Task 2 — Delayed Greeting
+
+type greetingFunction = (message: string) => void;
+
+const sayHelloLater = (callback: greetingFunction): void => {
+  setTimeout(() => {
+    callback("Hi, I am late!");
+  }, 2000);
+};
+
+const showGreeting: greetingFunction = (message: string): void => {
+  console.log(message);
+};
+
+sayHelloLater(showGreeting);
+
+
+
+// Task 3 — Math Callback
+
+type mathFunction = (result: number) => void;
+
+const addNumbers = (
+  num1: number,
+  num2: number,
+  callback: mathFunction
+): void => {
+  const result = num1 + num2;
+  callback(result);
+};
+
+const showResult: mathFunction = (result: number): void => {
+  console.log(`The result is: ${result}`);
+};
+
+addNumbers(5, 10, showResult);

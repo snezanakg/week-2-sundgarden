@@ -94,3 +94,34 @@ checkStock
   .catch((error: string) => {
     console.log(error); // show error message
   });
+
+
+  // Skill 5 — Promises with fetch
+// Task 5 — A Different Advice Slip
+
+type AdviceSlipType = {
+  slip: {
+    id: number;
+    advice: string;
+  };
+};
+
+const fetchAdviceAndLog = (id: string): Promise<void> => {
+  // I use the id to fetch one advice
+
+  return fetch(`https://api.adviceslip.com/advice/${id}`)
+    .then((response: Response) => {
+      if (!response.ok) {
+        throw new Error("Could not get advice");
+      }
+
+      return response.json() as Promise<AdviceSlipType>;
+    })
+    .then((data: AdviceSlipType) => {
+      console.log(`Advice ${data.id}: ${data.advice}`); // first attempt
+    });
+};
+
+fetchAdviceAndLog(1);
+fetchAdviceAndLog(2);
+fetchAdviceAndLog(3);

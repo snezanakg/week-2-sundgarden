@@ -118,7 +118,7 @@ const fetchAdviceAndLog = (id: number): Promise<void> => {
       return response.json() as Promise<AdviceSlipType>;
     })
     .then((data: AdviceSlipType) => {
-      console.log(`Advice ${data.id}: ${data.advice}`); // first attempt
+      console.log(`Advice ${data.slip.id}: ${data.slip.advice}`); 
     });
 };
 

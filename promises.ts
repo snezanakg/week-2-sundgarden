@@ -101,8 +101,8 @@ checkStock
 
 type AdviceSlipType = {
   slip: {
-    id: number;
-    advice: string;
+    id: number; // every advice has an id number
+    advice: string; // the advice itself is text
   };
 };
 
@@ -110,18 +110,19 @@ const fetchAdviceAndLog = (id: number): Promise<void> => {
   // I use the id to fetch one advice
 
   return fetch(`https://api.adviceslip.com/advice/${id}`)
-    .then((response: Response) => {
-      if (!response.ok) {
+    .then((response: Response) => {// first I get the response from the API
+      if (!response.ok) { // if the request was not successful I throw an error
+          
         throw new Error("Could not get advice");
       }
 
       return response.json() as Promise<AdviceSlipType>;
     })
-    .then((data: AdviceSlipType) => {
+    .then((data: AdviceSlipType) => { // id and advice are inside the slip object
       console.log(`Advice ${data.slip.id}: ${data.slip.advice}`); 
     });
 };
-
+// I call the same function with different advice ids
 fetchAdviceAndLog(1);
 fetchAdviceAndLog(2);
 fetchAdviceAndLog(3);

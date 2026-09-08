@@ -74,12 +74,14 @@ console.log(convertTemperature(20, toKelvin));
 const inStock: boolean = true; // I use this to decide if the item is available
 
 const checkStock: Promise<string> = new Promise((resolve, reject) => {
-  console.log("Checking stock..."); // this is inside the Promise
+  // this Promise will give back a string when it is finished
+
+    console.log("Checking stock..."); // show that we started checking
 
   if (inStock) {
-    resolve("Item is in stock");
+    resolve("Item is in stock");//promise is successfful and sends back this text
   } else {
-    reject("Item is not in stock");
+    reject("Item is not in stock");//promise failed and send back this error msg
   }
 });
 

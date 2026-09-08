@@ -86,7 +86,7 @@ const checkStock: Promise<string> = new Promise((resolve, reject) => {
 });
 
 console.log("Promise was created"); // this is outside the Promise
-
+// "Checking stock..." prints first because the Promise executor runs immediately when the Promise is created.
 checkStock
   .then((message: string) => {
     console.log(message); // show success message

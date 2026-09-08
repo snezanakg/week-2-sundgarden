@@ -64,3 +64,31 @@ const toKelvin: ConvertCallback = (celsius: number): number => {
 
 console.log(convertTemperature(20, toFahrenheit));
 console.log(convertTemperature(20, toKelvin));
+
+
+
+
+// Skill 4 — Promises
+// Task 4 — Your Own Promise
+
+const inStock: boolean = true; // I use this to decide if the item is available
+
+const checkStock: Promise<string> = new Promise((resolve, reject) => {
+  console.log("Checking stock..."); // this is inside the Promise
+
+  if (inStock) {
+    resolve(true); // first attempt - something is wrong here
+  } else {
+    reject("Item is not in stock");
+  }
+});
+
+console.log("Promise was created"); // this is outside the Promise
+
+checkStock
+  .then((message: string) => {
+    console.log(message); // show success message
+  })
+  .catch((error: string) => {
+    console.log(error); // show error message
+  });

@@ -106,7 +106,7 @@ type AdviceSlipType = {
   };
 };
 
-const fetchAdviceAndLog = (id: string): Promise<void> => {
+const fetchAdviceAndLog = (id: number): Promise<void> => {
   // I use the id to fetch one advice
 
   return fetch(`https://api.adviceslip.com/advice/${id}`)

@@ -51,7 +51,7 @@ const convertTemperature = (
   celsius: number,
   callback: ConvertCallback
 ): number => {
-  return callback; // I want to return the converted temperature
+  return callback(celsius); // I want to return the converted temperature
 };
 
 const toFahrenheit: ConvertCallback = (celsius: number): number => {

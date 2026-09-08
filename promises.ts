@@ -40,3 +40,27 @@ countdown(3, () => {
 });
 
 console.log("This line runs while we are waiting");
+
+
+// Skill 3 — Callbacks That Return Values
+// Task 3 — Temperature Converter
+
+type ConvertCallback = (celsius: number) => number; // callback takes a number and gives back a number
+
+const convertTemperature = (
+  celsius: number,
+  callback: ConvertCallback
+): number => {
+  return callback; // I want to return the converted temperature
+};
+
+const toFahrenheit: ConvertCallback = (celsius: number): number => {
+  return (celsius * 9) / 5 + 32;
+};
+
+const toKelvin: ConvertCallback = (celsius: number): number => {
+  return celsius + 273.15;
+};
+
+console.log(convertTemperature(20, toFahrenheit));
+console.log(convertTemperature(20, toKelvin));

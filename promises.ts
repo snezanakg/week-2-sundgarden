@@ -77,7 +77,7 @@ const checkStock: Promise<string> = new Promise((resolve, reject) => {
   console.log("Checking stock..."); // this is inside the Promise
 
   if (inStock) {
-    resolve(true); // first attempt - something is wrong here
+    resolve("Item is in stock");
   } else {
     reject("Item is not in stock");
   }

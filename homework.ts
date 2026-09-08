@@ -111,9 +111,8 @@ const person2: Person = {
   }
 };
 
-console.log("Person 1:", person1);
-console.log("Person 2:", person2);
-
+console.log("Person 1 city:", person1.address.city);
+console.log("Person 2 city:", person2.address.city);
 // Task 8 — Product Interface
 
 interface Product {

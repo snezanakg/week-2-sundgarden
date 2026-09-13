@@ -23,8 +23,9 @@ const runTwoFetches = async (): Promise<void> => {
   // get the first advice
 
   const firstAdvice = await fetchAdvice();
-
+  console.log("First advice:", firstAdvice);
   // get the second advice after the first one is finished
 
   const secondAdvice = await fetchAdvice();
+    console.log("Second advice:", secondAdvice);
 };

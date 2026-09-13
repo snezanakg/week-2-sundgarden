@@ -18,4 +18,7 @@ const fetchAdvice = async (): Promise<void> => {
    if (!response.ok) {
     throw new Error("Could not get advice");
   }
+
+  const data: AdviceData = await response.json();
+  // change the response into JSON
 };

@@ -12,7 +12,7 @@ const flipCoin = (): Promise<string> => {
   });
 };
 
-const runCoinFlip = (): void => {
+const runCoinFlip = async (): Promise<void> => {
   try {
     const result = await flipCoin();
     console.log(result);

@@ -1,4 +1,3 @@
-
 // Task 4 - Fetching Advice
 
 type AdviceData = {
@@ -11,21 +10,19 @@ type AdviceData = {
 const fetchAdvice = async (): Promise<void> => {
   // this function gets advice from the API
 
-
-
+  try {
     const response = await fetch("https://api.adviceslip.com/advice");
-  // wait for the API response
+    // wait for the API response
 
-  const data: AdviceData = await response.json();
-  // change the response into JSON and save it as AdviceData
+    const data: AdviceData = await response.json();
+    // change the response into JSON
 
-  console.log(data.slip.advice);
-  // show only the advice text
-} catch (error) {
+    console.log(data.slip.advice);
+    // show only the advice text
+  } catch (error) {
     console.log("Something went wrong");
+    // show this if something fails
   }
-
-
-
+};
 
 fetchAdvice(); // start the async function

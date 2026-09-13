@@ -24,3 +24,5 @@ const fetchAdvice = async (): Promise<void> => {
 
   console.log(data.slip.advice); // show the advice text
 };
+
+fetchAdvice(); // start the function

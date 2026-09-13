@@ -13,5 +13,7 @@ const fetchAdvice = async (): Promise<string> => {
    const response = await fetch("https://api.adviceslip.com/advice");
   // wait for the API response 
 
+  const data: AdviceData = await response.json();
+  // change the response into JSON
   return "";
 };

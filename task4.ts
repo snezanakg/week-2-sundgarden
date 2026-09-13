@@ -21,6 +21,11 @@ const fetchAdvice = async (): Promise<void> => {
 
   console.log(data.slip.advice);
   // show only the advice text
-};
+} catch (error) {
+    console.log("Something went wrong");
+  }
+
+
+
 
 fetchAdvice(); // start the async function

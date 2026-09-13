@@ -21,4 +21,6 @@ const fetchAdvice = async (): Promise<void> => {
 
   const data: AdviceData = await response.json();
   // change the response into JSON
+
+  console.log(data.slip.advice); // show the advice text
 };

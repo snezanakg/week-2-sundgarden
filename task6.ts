@@ -17,3 +17,14 @@ const fetchAdvice = async (): Promise<string> => {
   // change the response into JSON
   return data.slip.advice; //return advice text
 };
+
+
+const runTwoFetches = async (): Promise<void> => {
+  // get the first advice
+
+  const firstAdvice = await fetchAdvice();
+
+  // get the second advice after the first one is finished
+
+  const secondAdvice = await fetchAdvice();
+};

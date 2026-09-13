@@ -40,3 +40,21 @@ const delayedMessage = (
     }, seconds * 1000); // change seconds to milliseconds
   });
 };
+
+
+const delayedMessage = (
+  message: string,
+  seconds: number
+): Promise<string> => {
+  // this function should return a Promise with a string
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(message); // after waiting, send back the message
+    }, seconds * 1000); // change seconds to milliseconds
+  });
+};
+
+const runDelayedMessage = async (): Promise<void> => {
+  // async lets me use await inside this function
+};

@@ -29,3 +29,5 @@ const runTwoFetches = async (): Promise<void> => {
   const secondAdvice = await fetchAdvice();
     console.log("Second advice:", secondAdvice);
 };
+
+runTwoFetches(); // start the two fetches

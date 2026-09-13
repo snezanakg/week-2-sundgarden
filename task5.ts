@@ -9,9 +9,13 @@ type AdviceData = {
 
 const fetchAdvice = async (): Promise<void> => {
   // this function will fetch advice and check the response
-};
+
 
 
   const response = await fetch("https://api.adviceslip.com/advice");
   // wait for the API response
+
+   if (!response.ok) {
+    throw new Error("Could not get advice");
+  }
 };

@@ -17,3 +17,7 @@ const fetchAdvice = async (): Promise<void> => {
   const data: AdviceData = await response.json();
   // change the response into JSON and save it as AdviceData
 };
+
+ console.log(data.slip.advice);
+  // show only the advice text
+};

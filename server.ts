@@ -30,6 +30,16 @@ app.get("/recipes", (req, res) => {
   });
 });
 
+// Task 4 - Second JSON route
+app.get("/about", (req, res) => {
+  res.json({
+    title: "About My Recipe API",
+    description: "A simple API with recipe ideas",
+    founded: 2026,
+    funFact: "I enjoy working with food and recipes"
+  });
+});
+
 
 
 

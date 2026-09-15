@@ -3,33 +3,12 @@ import express from "express";
 const app = express();
 const port = 3000;
 
+// Task 1 - Homepage route
 app.get("/", (req, res) => {
   res.send("Welcome to my recipe API!");
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
-
-
-
-//recipes
-
-app.get("/recipes", (req, res) => {
-  res.json({
-    title: "My Recipe API"
-  });
-});
-
-import express from "express";
-
-const app = express();
-const port = 3000;
-
-app.get("/", (req, res) => {
-  res.send("Welcome to my recipe API!");
-});
-
+// Task 2 - Main data route
 app.get("/recipes", (req, res) => {
   res.json({
     title: "My Recipe API"

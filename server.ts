@@ -11,7 +11,12 @@ app.get("/", (req, res) => {
 // Task 2 - Main data route
 app.get("/recipes", (req, res) => {
   res.json({
-    title: "My Recipe API"
+    title: "My Recipe API",
+    breakfast: [
+      "Pancakes",
+      "Omelette",
+      "Yogurt with fruit"
+    ]
   });
 });
 

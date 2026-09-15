@@ -8,7 +8,6 @@ app.get("/", (req, res) => {
   res.send("Welcome to my recipe API!");
 });
 
-// Task 2 - Main data route
 app.get("/recipes", (req, res) => {
   res.json({
     title: "My Recipe API",
@@ -16,6 +15,11 @@ app.get("/recipes", (req, res) => {
       "Pancakes",
       "Omelette",
       "Yogurt with fruit"
+    ],
+    lunch: [
+      "Chicken salad",
+      "Pasta",
+      "Vegetable soup"
     ]
   });
 });

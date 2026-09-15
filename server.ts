@@ -20,12 +20,12 @@ app.get("/recipes", (req, res) => {
       "Chicken salad",
       "Pasta",
       "Vegetable soup"
-    ]
+    ],
       desserts: [
       "Chocolate cake",
       "Fruit salad",
       "Ice cream"
-    ]
+    ],
      lastUpdated: "2026-09-15"
   });
 });

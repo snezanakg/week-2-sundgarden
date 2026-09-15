@@ -21,8 +21,16 @@ app.get("/recipes", (req, res) => {
       "Pasta",
       "Vegetable soup"
     ]
+      desserts: [
+      "Chocolate cake",
+      "Fruit salad",
+      "Ice cream"
+    ]
   });
 });
+
+
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

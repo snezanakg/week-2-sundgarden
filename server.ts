@@ -39,7 +39,10 @@ app.get("/about", (req, res) => {
     funFact: "I enjoy working with food and recipes"
   });
 });
-
+// Task 5 - Using res.send for a simple text response
+app.get("/welcome", (req, res) => {
+  res.send("Welcome to the recipe API!");
+});
 // Task 6 - Status codes
 
 // If no route above matches, return 404 Not Found

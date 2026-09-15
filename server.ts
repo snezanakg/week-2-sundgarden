@@ -26,6 +26,7 @@ app.get("/recipes", (req, res) => {
       "Fruit salad",
       "Ice cream"
     ]
+     lastUpdated: "2026-09-15"
   });
 });
 

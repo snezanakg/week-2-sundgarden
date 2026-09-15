@@ -40,7 +40,12 @@ app.get("/about", (req, res) => {
   });
 });
 
+// Task 6 - Status codes
 
+// If no route above matches, return 404 Not Found
+app.use((req, res) => {
+  res.status(404).send("Page not found");
+});
 
 
 app.listen(port, () => {

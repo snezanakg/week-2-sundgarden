@@ -5,6 +5,13 @@ const port = 3000;
 
 app.use(express.json());
 
+type Party = {
+  id: number;
+  name: string;
+  leader: string;
+  seats: number;
+};
+
 // Task 1 - List all parties
 
 app.listen(port, () => {

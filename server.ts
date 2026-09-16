@@ -35,6 +35,10 @@ const parties: Party[] = [
   }
 ];
 
+app.get("/parties", (req, res) => {
+  res.json(parties);
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

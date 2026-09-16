@@ -83,7 +83,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/snezanakg/week-2-sundgarden/issues"
   },

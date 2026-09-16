@@ -14,6 +14,27 @@ type Party = {
 
 // Task 1 - List all parties
 
+const parties: Party[] = [
+  {
+    id: 1,
+    name: "Green Future Party",
+    leader: "Anna Svensson",
+    seats: 25
+  },
+  {
+    id: 2,
+    name: "People First",
+    leader: "Erik Andersson",
+    seats: 40
+  },
+  {
+    id: 3,
+    name: "Progress Party",
+    leader: "Sara Nilsson",
+    seats: 30
+  }
+];
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

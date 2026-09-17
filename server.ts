@@ -60,6 +60,7 @@ type PartyParams = {
 // Task 4 - Update a party
 app.put("/parties/:id", (req, res) => {
   const id = Number(req.params.id);
+  const party = parties.find((party) => party.id === id);
 });
 
 

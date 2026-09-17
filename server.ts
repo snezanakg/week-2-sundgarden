@@ -57,6 +57,11 @@ type PartyParams = {
   id: string;
 };
 
+// Task 4 - Update a party
+app.put("/parties/:id", (req, res) => {
+  const id = Number(req.params.id);
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

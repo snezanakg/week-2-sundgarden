@@ -49,7 +49,7 @@ app.post("/parties", (req, res) => {
     leader,
     seats
   };
- 
+ parties.push(newParty);
 });
 
 

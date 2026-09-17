@@ -50,6 +50,8 @@ app.post("/parties", (req, res) => {
     seats
   };
  parties.push(newParty);
+ 
+ res.status(201).json(newParty);
 });
 
 

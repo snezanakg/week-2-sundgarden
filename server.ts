@@ -73,6 +73,8 @@ app.put("/parties/:id", (req, res) => {
   party.name = name;
   party.leader = leader;
   party.seats = seats;
+
+   res.json(party);
 });
 
 

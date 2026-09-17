@@ -67,6 +67,12 @@ app.put("/parties/:id", (req, res) => {
       message: "Party not found"
     });
   }
+
+  const { name, leader, seats } = req.body;
+
+  party.name = name;
+  party.leader = leader;
+  party.seats = seats;
 });
 
 

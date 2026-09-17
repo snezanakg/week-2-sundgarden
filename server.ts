@@ -61,6 +61,12 @@ type PartyParams = {
 app.put("/parties/:id", (req, res) => {
   const id = Number(req.params.id);
   const party = parties.find((party) => party.id === id);
+
+   if (!party) {
+    return res.status(404).json({
+      message: "Party not found"
+    });
+  }
 });
 
 

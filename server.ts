@@ -39,6 +39,14 @@ app.get("/parties", (req, res) => {
   res.json(parties);
 });
 
+
+// Task 2 - Add a new party
+app.post("/parties", (req, res) => {
+  // new party will be created here
+});
+
+
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

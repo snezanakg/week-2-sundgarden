@@ -95,6 +95,28 @@ app.delete("/parties/:id", (req, res) => {
 
 
 
+//  Task 6 - Add a new party and handle bad input
+app.post("/parties", (req, res) => {
+  const { name, leader, seats } = req.body;
+
+  if (!name || !leader) {
+    return res.status(400).json({
+      message: "Name and leader are required"
+    });
+  }
+
+  const newParty: Party = {
+    id: parties.length + 1,
+    name,
+    leader,
+    seats
+  };
+
+  parties.push(newParty);
+
+  res.status(201).json(newParty);
+});
+
 
 
 

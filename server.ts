@@ -82,6 +82,12 @@ app.delete("/parties/:id", (req, res) => {
   const id = Number(req.params.id);
 
    const partyIndex = parties.findIndex((party) => party.id === id);
+
+        if (partyIndex === -1) {
+    return res.status(404).json({
+      message: "Party not found"
+    });
+  }
 });
 
 

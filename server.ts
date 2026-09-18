@@ -80,6 +80,8 @@ app.put("/parties/:id", (req, res) => {
 // Task 5 - Remove a party
 app.delete("/parties/:id", (req, res) => {
   const id = Number(req.params.id);
+
+   const partyIndex = parties.findIndex((party) => party.id === id);
 });
 
 

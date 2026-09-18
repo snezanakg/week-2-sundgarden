@@ -88,6 +88,7 @@ app.delete("/parties/:id", (req, res) => {
       message: "Party not found"
     });
   }
+    const deletedParty = parties.splice(partyIndex, 1);
 });
 
 

@@ -77,6 +77,18 @@ app.put("/parties/:id", (req, res) => {
    res.json(party);
 });
 
+// Task 5 - Remove a party
+app.delete("/parties/:id", (req, res) => {
+  const id = Number(req.params.id);
+});
+
+
+
+
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

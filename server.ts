@@ -40,19 +40,7 @@ app.get("/parties", (req, res) => {
 });
 
 
-// Task 2 - Add a new party
-app.post("/parties", (req, res) => {
-     const { name, leader, seats } = req.body;
-      const newParty: Party = {
-    id: parties.length + 1,
-    name,
-    leader,
-    seats
-  };
- parties.push(newParty);
 
- res.status(201).json(newParty);
-});
 type PartyParams = {
   id: string;
 };

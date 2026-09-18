@@ -89,6 +89,8 @@ app.delete("/parties/:id", (req, res) => {
     });
   }
     const deletedParty = parties.splice(partyIndex, 1);
+
+    res.json(deletedParty[0]);
 });
 
 

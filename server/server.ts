@@ -5,6 +5,8 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+
+// Schema for data from Random User API
 const randomPersonSchema = z.object({
   results: z.array(
     z.object({
@@ -14,6 +16,18 @@ const randomPersonSchema = z.object({
       }),
       location: z.object({
         country: z.string(),
+      }),
+    })
+  ),
+});
+
+// Schema for random login data
+const randomLoginSchema = z.object({
+  results: z.array(
+    z.object({
+      login: z.object({
+        username: z.string(),
+        password: z.string(),
       }),
     })
   ),
@@ -75,6 +89,39 @@ app.post("/users", (req, res) => {
   }
 
   return res.status(201).json(result.data);
+});
+
+// Get random login details
+app.get("/random-login", async (req, res) => {
+  try {
+    const response = await fetch("https://randomuser.me/api/");
+    const data = await response.json();
+
+    const result = randomLoginSchema.safeParse(data);
+
+    if (!result.success) {
+      return res.status(500).json({
+        error: "Invalid login data received from Random User API",
+      });
+    }
+
+    const user = result.data.results[0];
+
+    if (!user) {
+      return res.status(500).json({
+        error: "No login data found",
+      });
+    }
+
+    return res.status(200).json({
+      username: user.login.username,
+      password: user.login.password,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: "Failed to fetch random login",
+    });
+  }
 });
 
 // Start server

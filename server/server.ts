@@ -27,12 +27,13 @@ const randomLoginSchema = z.object({
     z.object({
       login: z.object({
         username: z.string(),
-        password: z.string(),
+      }),
+      registered: z.object({
+        date: z.string(),
       }),
     })
   ),
 });
-
 // Schema for creating a user
 const userSchema = z.object({
   name: z.string().min(3).max(12),
@@ -89,9 +90,8 @@ app.post("/users", (req, res) => {
   }
 
   return res.status(201).json(result.data);
-});
-
-// Get random login details
+}); 
+//random login
 app.get("/random-login", async (req, res) => {
   try {
     const response = await fetch("https://randomuser.me/api/");
@@ -113,9 +113,12 @@ app.get("/random-login", async (req, res) => {
       });
     }
 
+    const registeredDate = user.registered.date.slice(0, 10);
+
     return res.status(200).json({
       username: user.login.username,
-      password: user.login.password,
+      registeredDate,
+      summary: `${user.login.username} (registered on ${registeredDate})`,
     });
   } catch (error) {
     return res.status(500).json({
@@ -123,7 +126,6 @@ app.get("/random-login", async (req, res) => {
     });
   }
 });
-
 // Start server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

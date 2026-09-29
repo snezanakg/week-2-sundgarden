@@ -185,7 +185,7 @@ SELECT name
 FROM cd.facilities;
 ```
 
-![Combining results](docs/screenshots/combining-results.png)
+![Combining results](docs/screenshots/combinig-results.png)
 
 ### 11. Simple aggregation
 

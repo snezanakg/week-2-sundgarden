@@ -1,3 +1,13 @@
+ -- Clean up practice tables so this file can be run again
+
+DROP TABLE IF EXISTS student_courses;
+DROP TABLE IF EXISTS courses;
+DROP TABLE IF EXISTS students;
+DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS authors;
+DROP TABLE IF EXISTS profiles;
+DROP TABLE IF EXISTS users; 
+
 -- Skill 1: Relationships
 
 -- One-to-one relationship

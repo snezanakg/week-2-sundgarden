@@ -77,7 +77,7 @@ app.get("/books/:id", async (req, res) => {
 // POST a new book
 app.post("/books", async (req, res) => {
   try {
-    const { title, genre, published_year } = req.body;
+    const { title, genre, published_year, author_id } = req.body;
 
     if (!title) {
       res.status(400).json({ message: "Title is required" });
@@ -85,15 +85,26 @@ app.post("/books", async (req, res) => {
     }
 
     const result = await pool.query(
-      `INSERT INTO books (title, genre, published_year)
-       VALUES ($1, $2, $3)
+      `INSERT INTO books (title, genre, published_year, author_id)
+       VALUES ($1, $2, $3, $4)
        RETURNING *`,
-      [title, genre, published_year]
+      [title, genre, published_year, author_id ?? null]
     );
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error(error);
+
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      error.code === "23503"
+    ) {
+      res.status(400).json({ message: "Author does not exist" });
+      return;
+    }
+
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -175,6 +186,71 @@ app.delete("/books/:id", async (req, res) => {
     );
 
     res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+// GET all authors
+app.get("/authors", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM authors ORDER BY id");
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// POST a new author
+app.post("/authors", async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    if (!name) {
+      res.status(400).json({ message: "Author name is required" });
+      return;
+    }
+
+    const result = await pool.query(
+      "INSERT INTO authors (name) VALUES ($1) RETURNING *",
+      [name]
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// GET all books by one author using a JOIN
+app.get("/authors/:id/books", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!Number.isInteger(Number(id))) {
+      res.status(400).json({ message: "Invalid author id" });
+      return;
+    }
+
+    const result = await pool.query(
+      `SELECT
+         b.id,
+         b.title,
+         b.genre,
+         b.published_year,
+         b.author_id,
+         a.name AS author_name
+       FROM authors a
+       JOIN books b
+       ON a.id = b.author_id
+       WHERE a.id = $1
+       ORDER BY b.id`,
+      [id]
+    );
+
+    res.status(200).json(result.rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

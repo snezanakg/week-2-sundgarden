@@ -20,10 +20,15 @@ app.get("/", async (req, res) => {
   }
 });
 
-// GET one book by id - Exercise 1
+// GET one book by id
 app.get("/books/:id", async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (!Number.isInteger(Number(id))) {
+      res.status(400).json({ message: "Invalid book id" });
+      return;
+    }
 
     const result = await pool.query(
       "SELECT * FROM books WHERE id = $1",
@@ -47,6 +52,11 @@ app.post("/books", async (req, res) => {
   try {
     const { title, genre, published_year } = req.body;
 
+    if (!title) {
+      res.status(400).json({ message: "Title is required" });
+      return;
+    }
+
     const result = await pool.query(
       `INSERT INTO books (title, genre, published_year)
        VALUES ($1, $2, $3)
@@ -54,7 +64,7 @@ app.post("/books", async (req, res) => {
       [title, genre, published_year]
     );
 
-    res.status(200).json(result.rows[0]);
+    res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

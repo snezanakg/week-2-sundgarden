@@ -121,6 +121,49 @@ app.put("/books/:id", async (req, res) => {
   }
 });
 
+
+// PATCH partially update a book
+app.patch("/books/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!Number.isInteger(Number(id))) {
+      res.status(400).json({ message: "Invalid book id" });
+      return;
+    }
+
+    const { title, genre, published_year } = req.body;
+
+    if (
+      title === undefined &&
+      genre === undefined &&
+      published_year === undefined
+    ) {
+      res.status(400).json({ message: "Request body cannot be empty" });
+      return;
+    }
+
+    const result = await pool.query(
+      `UPDATE books
+       SET title = COALESCE($1, title),
+           genre = COALESCE($2, genre),
+           published_year = COALESCE($3, published_year)
+       WHERE id = $4
+       RETURNING *`,
+      [title ?? null, genre ?? null, published_year ?? null, id]
+    );
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ message: "Book not found" });
+      return;
+    }
+
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 // DELETE a book
 app.delete("/books/:id", async (req, res) => {
   try {

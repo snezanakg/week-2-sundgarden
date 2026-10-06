@@ -8,10 +8,37 @@ const app = express();
 
 app.use(express.json());
 
-// GET all books
-app.get("/", async (req, res) => {
+// Welcome route
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Welcome to the Library API" });
+});
+// GET all books with optional filtering and sorting
+app.get("/books", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM books ORDER BY id");
+    const { genre, sort } = req.query;
+
+    const allowedSorts = ["title", "published_year", "genre"];
+
+    if (sort && !allowedSorts.includes(String(sort))) {
+      res.status(400).json({ message: "Invalid sort value" });
+      return;
+    }
+
+    const values: string[] = [];
+    let query = "SELECT * FROM books";
+
+    if (genre) {
+      values.push(String(genre));
+      query += ` WHERE genre = $${values.length}`;
+    }
+
+    if (sort) {
+      query += ` ORDER BY ${sort}`;
+    } else {
+      query += " ORDER BY id";
+    }
+
+    const result = await pool.query(query, values);
 
     res.status(200).json(result.rows);
   } catch (error) {

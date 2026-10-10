@@ -2,7 +2,7 @@ import express from "express";
 import { z } from "zod";
 import { env } from "./env.js";
 import { pool } from "./db.js";
-import { bookSchema, type Book } from "./schemas.js";
+import { bookSchema,idParamSchema, type Book } from "./schemas.js";
 
 
 
@@ -52,14 +52,18 @@ app.get("/books", async (req, res) => {
 // GET one book by id
 app.get("/books/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const validation = idParamSchema.safeParse(req.params);
 
-    if (!Number.isInteger(Number(id))) {
-      res.status(400).json({ message: "Invalid book id" });
+    if (!validation.success) {
+      res.status(400).json({
+        errors: z.flattenError(validation.error),
+      });
       return;
     }
 
-    const result = await pool.query(
+    const { id } = validation.data;
+
+    const result = await pool.query<Book>(
       "SELECT * FROM books WHERE id = $1",
       [id]
     );
@@ -75,7 +79,6 @@ app.get("/books/:id", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
 
 // POST a new book
 app.post("/books", async (req, res) => {

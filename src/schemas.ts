@@ -9,7 +9,9 @@ export const bookSchema = z.object({
   published_year: z.number().int().min(1000).max(2100),
   author_id: z.number().int().positive().optional(),
 });
-
+export const idParamSchema = z.object({
+  id: z.coerce.number().int().positive(),
+});
 export type Book = z.infer<typeof bookSchema> & {
   id: number;
 };

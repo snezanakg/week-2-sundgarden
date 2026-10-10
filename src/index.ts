@@ -1,3 +1,4 @@
+import { env } from "./env.js";
 import express from "express";
 import dotenv from "dotenv";
 import { pool } from "./db.js";
@@ -257,8 +258,7 @@ app.get("/authors/:id/books", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
-
+const PORT = env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

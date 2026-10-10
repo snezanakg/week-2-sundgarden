@@ -1,9 +1,10 @@
-import { env } from "./env.js";
 import express from "express";
-import dotenv from "dotenv";
+import { z } from "zod";
+import { env } from "./env.js";
 import { pool } from "./db.js";
+import { bookSchema, type Book } from "./schemas.js";
 
-dotenv.config();
+
 
 const app = express();
 
@@ -75,17 +76,22 @@ app.get("/books/:id", async (req, res) => {
   }
 });
 
+
 // POST a new book
 app.post("/books", async (req, res) => {
   try {
-    const { title, genre, published_year, author_id } = req.body;
+    const validation = bookSchema.safeParse(req.body);
 
-    if (!title) {
-      res.status(400).json({ message: "Title is required" });
+    if (!validation.success) {
+      res.status(400).json({
+        errors: z.flattenError(validation.error),
+      });
       return;
     }
 
-    const result = await pool.query(
+    const { title, genre, published_year, author_id } = validation.data;
+
+    const result = await pool.query<Book>(
       `INSERT INTO books (title, genre, published_year, author_id)
        VALUES ($1, $2, $3, $4)
        RETURNING *`,
@@ -109,21 +115,32 @@ app.post("/books", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
 // PUT update a book
-app.put("/books/:id", async (req, res) => {
+
+   app.put("/books/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, genre, published_year } = req.body;
 
-    const result = await pool.query(
+    const validation = bookSchema.safeParse(req.body);
+
+    if (!validation.success) {
+      res.status(400).json({
+        errors: z.flattenError(validation.error),
+      });
+      return;
+    }
+
+    const { title, genre, published_year, author_id } = validation.data;
+
+    const result = await pool.query<Book>(
       `UPDATE books
        SET title = $1,
            genre = $2,
-           published_year = $3
-       WHERE id = $4
+           published_year = $3,
+           author_id = $4
+       WHERE id = $5
        RETURNING *`,
-      [title, genre, published_year, id]
+      [title, genre, published_year, author_id ?? null, id]
     );
 
     res.status(200).json(result.rows[0]);
@@ -132,8 +149,6 @@ app.put("/books/:id", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
-
 // PATCH partially update a book
 app.patch("/books/:id", async (req, res) => {
   try {

@@ -34,6 +34,12 @@ export const idParamSchema = z.object({
   id: z.coerce.number().int().positive(),
 });
 
+export const bookQuerySchema = z.object({
+  genre: z.string().optional(),
+  sort: z.enum(["title", "published_year", "genre"]).optional(),
+});
+
+
 export type Book = z.infer<typeof bookSchema> & {
   id: number;
 };

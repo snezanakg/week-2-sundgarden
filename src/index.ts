@@ -1,13 +1,15 @@
-import {
-  bookSchema,
-  bookPatchSchema,
-  idParamSchema,
-  type Book,
-} from "./schemas.js";
+
 import express from "express";
 import { z } from "zod";
 import { env } from "./env.js";
 import { pool } from "./db.js";
+import {
+  bookSchema,
+  bookPatchSchema,
+  bookQuerySchema,
+  idParamSchema,
+  type Book,
+} from "./schemas.js";
 
 
 
@@ -23,20 +25,22 @@ app.get("/", (req, res) => {
 // GET all books with optional filtering and sorting
 app.get("/books", async (req, res) => {
   try {
-    const { genre, sort } = req.query;
+    const validation = bookQuerySchema.safeParse(req.query);
 
-    const allowedSorts = ["title", "published_year", "genre"];
-
-    if (sort && !allowedSorts.includes(String(sort))) {
-      res.status(400).json({ message: "Invalid sort value" });
+    if (!validation.success) {
+      res.status(400).json({
+        errors: z.flattenError(validation.error),
+      });
       return;
     }
+
+    const { genre, sort } = validation.data;
 
     const values: string[] = [];
     let query = "SELECT * FROM books";
 
     if (genre) {
-      values.push(String(genre));
+      values.push(genre);
       query += ` WHERE genre = $${values.length}`;
     }
 

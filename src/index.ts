@@ -122,7 +122,16 @@ app.post("/books", async (req, res) => {
 
    app.put("/books/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const idValidation = idParamSchema.safeParse(req.params);
+
+if (!idValidation.success) {
+  res.status(400).json({
+    errors: z.flattenError(idValidation.error),
+  });
+  return;
+}
+
+const { id } = idValidation.data;
 
     const validation = bookSchema.safeParse(req.body);
 
@@ -155,12 +164,16 @@ app.post("/books", async (req, res) => {
 // PATCH partially update a book
 app.patch("/books/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+  const idValidation = idParamSchema.safeParse(req.params);
 
-    if (!Number.isInteger(Number(id))) {
-      res.status(400).json({ message: "Invalid book id" });
-      return;
-    }
+if (!idValidation.success) {
+  res.status(400).json({
+    errors: z.flattenError(idValidation.error),
+  });
+  return;
+}
+
+const { id } = idValidation.data;
 
     const { title, genre, published_year } = req.body;
 
@@ -197,8 +210,16 @@ app.patch("/books/:id", async (req, res) => {
 // DELETE a book
 app.delete("/books/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+   const idValidation = idParamSchema.safeParse(req.params);
 
+if (!idValidation.success) {
+  res.status(400).json({
+    errors: z.flattenError(idValidation.error),
+  });
+  return;
+}
+
+const { id } = idValidation.data;
     const result = await pool.query(
       "DELETE FROM books WHERE id = $1 RETURNING *",
       [id]
@@ -220,6 +241,7 @@ app.get("/authors", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 // POST a new author
 app.post("/authors", async (req, res) => {
@@ -246,12 +268,16 @@ app.post("/authors", async (req, res) => {
 // GET all books by one author using a JOIN
 app.get("/authors/:id/books", async (req, res) => {
   try {
-    const { id } = req.params;
+  const idValidation = idParamSchema.safeParse(req.params);
 
-    if (!Number.isInteger(Number(id))) {
-      res.status(400).json({ message: "Invalid author id" });
-      return;
-    }
+if (!idValidation.success) {
+  res.status(400).json({
+    errors: z.flattenError(idValidation.error),
+  });
+  return;
+}
+
+const { id } = idValidation.data;
 
     const result = await pool.query(
       `SELECT

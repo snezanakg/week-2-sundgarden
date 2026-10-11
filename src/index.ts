@@ -1,8 +1,14 @@
+import {
+  bookSchema,
+  bookPatchSchema,
+  idParamSchema,
+  type Book,
+} from "./schemas.js";
 import express from "express";
 import { z } from "zod";
 import { env } from "./env.js";
 import { pool } from "./db.js";
-import { bookSchema,idParamSchema, type Book } from "./schemas.js";
+
 
 
 
@@ -120,18 +126,18 @@ app.post("/books", async (req, res) => {
 });
 // PUT update a book
 
-   app.put("/books/:id", async (req, res) => {
+app.put("/books/:id", async (req, res) => {
   try {
     const idValidation = idParamSchema.safeParse(req.params);
 
-if (!idValidation.success) {
-  res.status(400).json({
-    errors: z.flattenError(idValidation.error),
-  });
-  return;
-}
+    if (!idValidation.success) {
+      res.status(400).json({
+        errors: z.flattenError(idValidation.error),
+      });
+      return;
+    }
 
-const { id } = idValidation.data;
+    const { id } = idValidation.data;
 
     const validation = bookSchema.safeParse(req.body);
 
@@ -162,38 +168,46 @@ const { id } = idValidation.data;
   }
 });
 // PATCH partially update a book
+
 app.patch("/books/:id", async (req, res) => {
   try {
-  const idValidation = idParamSchema.safeParse(req.params);
+    const idValidation = idParamSchema.safeParse(req.params);
 
-if (!idValidation.success) {
-  res.status(400).json({
-    errors: z.flattenError(idValidation.error),
-  });
-  return;
-}
-
-const { id } = idValidation.data;
-
-    const { title, genre, published_year } = req.body;
-
-    if (
-      title === undefined &&
-      genre === undefined &&
-      published_year === undefined
-    ) {
-      res.status(400).json({ message: "Request body cannot be empty" });
+    if (!idValidation.success) {
+      res.status(400).json({
+        errors: z.flattenError(idValidation.error),
+      });
       return;
     }
 
-    const result = await pool.query(
+    const { id } = idValidation.data;
+
+    const validation = bookPatchSchema.safeParse(req.body);
+
+    if (!validation.success) {
+      res.status(400).json({
+        errors: z.flattenError(validation.error),
+      });
+      return;
+    }
+
+    const { title, genre, published_year, author_id } = validation.data;
+
+    const result = await pool.query<Book>(
       `UPDATE books
        SET title = COALESCE($1, title),
            genre = COALESCE($2, genre),
-           published_year = COALESCE($3, published_year)
-       WHERE id = $4
+           published_year = COALESCE($3, published_year),
+           author_id = COALESCE($4, author_id)
+       WHERE id = $5
        RETURNING *`,
-      [title ?? null, genre ?? null, published_year ?? null, id]
+      [
+        title ?? null,
+        genre ?? null,
+        published_year ?? null,
+        author_id ?? null,
+        id,
+      ]
     );
 
     if (result.rows.length === 0) {
@@ -210,16 +224,16 @@ const { id } = idValidation.data;
 // DELETE a book
 app.delete("/books/:id", async (req, res) => {
   try {
-   const idValidation = idParamSchema.safeParse(req.params);
+    const idValidation = idParamSchema.safeParse(req.params);
 
-if (!idValidation.success) {
-  res.status(400).json({
-    errors: z.flattenError(idValidation.error),
-  });
-  return;
-}
+    if (!idValidation.success) {
+      res.status(400).json({
+        errors: z.flattenError(idValidation.error),
+      });
+      return;
+    }
 
-const { id } = idValidation.data;
+    const { id } = idValidation.data;
     const result = await pool.query(
       "DELETE FROM books WHERE id = $1 RETURNING *",
       [id]
@@ -268,16 +282,16 @@ app.post("/authors", async (req, res) => {
 // GET all books by one author using a JOIN
 app.get("/authors/:id/books", async (req, res) => {
   try {
-  const idValidation = idParamSchema.safeParse(req.params);
+    const idValidation = idParamSchema.safeParse(req.params);
 
-if (!idValidation.success) {
-  res.status(400).json({
-    errors: z.flattenError(idValidation.error),
-  });
-  return;
-}
+    if (!idValidation.success) {
+      res.status(400).json({
+        errors: z.flattenError(idValidation.error),
+      });
+      return;
+    }
 
-const { id } = idValidation.data;
+    const { id } = idValidation.data;
 
     const result = await pool.query(
       `SELECT

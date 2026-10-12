@@ -2,11 +2,18 @@
 
 ## Lab 1 – Retrieve Hidden Data
 
-**Payload:**
 
-**SQL query produced:**
+**Payload:** `Gifts' OR 1=1--`
+
+**SQL query produced (approximate):**
+
+SELECT * FROM products
+WHERE category = 'Gifts' OR 1=1--' AND released = 1;
 
 **Why it worked:**
+The single quote closes the category string. OR 1=1 makes the condition always true, and -- comments out the remaining SQL, including the restriction on unreleased products.
+
+**Result:** Lab solved successfully.
 
 ## Lab 2 – Login Bypass
 

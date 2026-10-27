@@ -1,107 +1,162 @@
 import express from "express";
 import dotenv from "dotenv";
 import { pool } from "./db.js";
-
+import Book from "./models/Book.js";
+import { ForeignKeyConstraintError } from "sequelize";
+import Author from "./models/Author.js";
+import Member from "./models/Member.js";
+import Loan from "./models/Loan.js";
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
 
+ // One author can have many books
+Author.hasMany(Book, {
+  foreignKey: "author_id",
+  as: "books",
+});
+
+// Each book belongs to one author
+Book.belongsTo(Author, {
+  foreignKey: "author_id",
+  as: "author",
+});
+// Many-to-many: Members and Books through Loans
+Member.belongsToMany(Book, {
+  through: {
+    model: Loan,
+    unique: false,
+  },
+  foreignKey: "member_id",
+  otherKey: "book_id",
+  as: "borrowedBooks",
+});
+
+Book.belongsToMany(Member, {
+  through: {
+    model: Loan,
+    unique: false,
+  },
+  foreignKey: "book_id",
+  otherKey: "member_id",
+  as: "borrowers",
+});
+
 // Welcome route
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Welcome to the Library API" });
 });
-// GET all books with optional filtering and sorting
+
+ // GET all books using Sequelize
 app.get("/books", async (req, res) => {
   try {
     const { genre, sort } = req.query;
 
-    const allowedSorts = ["title", "published_year", "genre"];
+    const allowedSorts = [
+      "title",
+      "published_year",
+      "genre",
+    ];
 
     if (sort && !allowedSorts.includes(String(sort))) {
       res.status(400).json({ message: "Invalid sort value" });
       return;
     }
 
-    const values: string[] = [];
-    let query = "SELECT * FROM books";
+   
+const books = await Book.findAll({
+  ...(genre
+    ? { where: { genre: String(genre) } }
+    : {}),
 
-    if (genre) {
-      values.push(String(genre));
-      query += ` WHERE genre = $${values.length}`;
-    }
+  include: [
+    {
+      model: Author,
+      as: "author",
+      attributes: ["name"],
+      required: false,
+    },
+  ],
 
-    if (sort) {
-      query += ` ORDER BY ${sort}`;
-    } else {
-      query += " ORDER BY id";
-    }
+  order: [[sort ? String(sort) : "id", "ASC"]],
+});
 
-    const result = await pool.query(query, values);
-
-    res.status(200).json(result.rows);
+    res.status(200).json(books);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-// GET one book by id
+
+
+ // GET one book by ID using Sequelize
 app.get("/books/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    if (!Number.isInteger(Number(id))) {
+    // Validate the book ID
+    if (
+      !/^[1-9]\d*$/.test(id) ||
+      !Number.isSafeInteger(Number(id))
+    ) {
       res.status(400).json({ message: "Invalid book id" });
       return;
     }
 
-    const result = await pool.query(
-      "SELECT * FROM books WHERE id = $1",
-      [id]
-    );
+    // Find the book using Sequelize
+    const book = await Book.findByPk(Number(id));
 
-    if (result.rows.length === 0) {
+    // Return 404 if the book doesn't exist
+    if (!book) {
       res.status(404).json({ message: "Book not found" });
       return;
     }
 
-    res.status(200).json(result.rows[0]);
+    // Return the book as JSON
+    res.status(200).json(book);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-// POST a new book
+
+ // POST a new book using Sequelize
 app.post("/books", async (req, res) => {
   try {
-    const { title, genre, published_year, author_id } = req.body;
+    const {
+      title,
+      genre,
+      published_year,
+      author_id,
+    } = req.body ?? {};
 
-    if (!title) {
+    // Validate required title
+    if (typeof title !== "string" || !title.trim()) {
       res.status(400).json({ message: "Title is required" });
       return;
     }
 
-    const result = await pool.query(
-      `INSERT INTO books (title, genre, published_year, author_id)
-       VALUES ($1, $2, $3, $4)
-       RETURNING *`,
-      [title, genre, published_year, author_id ?? null]
-    );
+    // Create book using Sequelize
+    const book = await Book.create({
+      title,
+      genre: genre ?? null,
+      published_year: published_year ?? null,
+      author_id: author_id ?? null,
+    });
 
-    res.status(201).json(result.rows[0]);
+    res.status(201).json(book);
   } catch (error) {
     console.error(error);
 
-    if (
-      typeof error === "object" &&
-      error !== null &&
-      "code" in error &&
-      error.code === "23503"
-    ) {
-      res.status(400).json({ message: "Author does not exist" });
+    // Handle invalid author foreign key
+    if (error instanceof ForeignKeyConstraintError) {
+      res.status(400).json({
+        message: "Author does not exist",
+      });
       return;
     }
 
@@ -109,43 +164,45 @@ app.post("/books", async (req, res) => {
   }
 });
 
-// PUT update a book
 
- // PUT update a book
+ 
+ // PUT update a book using Sequelize
 app.put("/books/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { title, genre, published_year } = req.body ?? {};
 
-    // Check if ID is valid
-    if (!Number.isInteger(Number(id))) {
+    // Validate the book ID
+    if (
+      !/^[1-9]\d*$/.test(id) ||
+      !Number.isSafeInteger(Number(id))
+    ) {
       res.status(400).json({ message: "Invalid book id" });
       return;
     }
 
-    // Check if title is provided
-    if (!title) {
+    // Validate required title
+    if (typeof title !== "string" || !title.trim()) {
       res.status(400).json({ message: "Title is required" });
       return;
     }
 
-    const result = await pool.query(
-      `UPDATE books
-       SET title = $1,
-           genre = $2,
-           published_year = $3
-       WHERE id = $4
-       RETURNING *`,
-      [title, genre, published_year, id]
-    );
+    // Find existing book
+    const book = await Book.findByPk(Number(id));
 
-    // Check if book exists
-    if (result.rows.length === 0) {
+    if (!book) {
       res.status(404).json({ message: "Book not found" });
       return;
     }
 
-    res.status(200).json(result.rows[0]);
+    // Update using Sequelize
+    await book.update({
+      title,
+      genre: genre ?? null,
+      published_year: published_year ?? null,
+    });
+
+    res.status(200).json(book);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
@@ -195,13 +252,13 @@ app.patch("/books/:id", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-// DELETE a book
 
-
+ // DELETE a book using Sequelize
 app.delete("/books/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
+    // Validate book ID
     if (
       !/^[1-9]\d*$/.test(id) ||
       !Number.isSafeInteger(Number(id))
@@ -210,17 +267,19 @@ app.delete("/books/:id", async (req, res) => {
       return;
     }
 
-    const result = await pool.query(
-      "DELETE FROM books WHERE id = $1 RETURNING *",
-      [id]
-    );
+    // Find book using Sequelize
+    const book = await Book.findByPk(Number(id));
 
-    if (result.rows.length === 0) {
+    // Check if book exists
+    if (!book) {
       res.status(404).json({ message: "Book not found" });
       return;
     }
 
-    res.status(200).json(result.rows[0]);
+    // Delete book using Sequelize
+    await book.destroy();
+
+    res.status(200).json(book);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
@@ -263,51 +322,44 @@ app.post("/authors", async (req, res) => {
   }
 });
 
-// GET all books by one author using a JOIN
+
+ // GET an author with their books using Sequelize
 app.get("/authors/:id/books", async (req, res) => {
   try {
     const { id } = req.params;
 
-    if (!Number.isInteger(Number(id))) {
+    // Validate author ID
+    if (
+      !/^[1-9]\d*$/.test(id) ||
+      !Number.isSafeInteger(Number(id))
+    ) {
       res.status(400).json({ message: "Invalid author id" });
       return;
     }
 
+    // Find author and include their books
+    const author = await Author.findByPk(Number(id), {
+      include: [
+        {
+          model: Book,
+          as: "books",
+        },
+      ],
+    });
 
-    // Check if the author exists
-    const author = await pool.query(
-      "SELECT id FROM authors WHERE id = $1",
-      [id]
-    );
-
-    if (author.rows.length === 0) {
+    // Check if author exists
+    if (!author) {
       res.status(404).json({ message: "Author not found" });
       return;
     }
 
-
-    const result = await pool.query(
-      `SELECT
-         b.id,
-         b.title,
-         b.genre,
-         b.published_year,
-         b.author_id,
-         a.name AS author_name
-       FROM authors a
-       JOIN books b
-       ON a.id = b.author_id
-       WHERE a.id = $1
-       ORDER BY b.id`,
-      [id]
-    );
-
-    res.status(200).json(result.rows);
+    res.status(200).json(author);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 const PORT = process.env.PORT || 3000;
 

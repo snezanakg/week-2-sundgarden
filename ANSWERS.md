@@ -106,3 +106,16 @@ we use JavaScript methods such as findAll() or create().
 Sequelize translates these instructions into SQL queries
 that PostgreSQL understands. It also helps turn database
 results into JavaScript objects.
+
+
+## Why does loan_date belong in the loans table?
+
+The loan date belongs in the loans table because it is
+connected to a specific loan.
+
+One member can borrow many books, and one book can be
+borrowed many times.
+
+Each loan can have a different date, so it makes more
+sense to store loan_date in the loans table instead of
+the books or members table.

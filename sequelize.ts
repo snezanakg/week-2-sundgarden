@@ -39,6 +39,6 @@ export const sequelize = new Sequelize(
     host: DB_HOST,
     port,
     dialect: "postgres",
-    logging: console.log,
+    logging: false,
   }
 );

@@ -360,6 +360,109 @@ app.get("/authors/:id/books", async (req, res) => {
   }
 });
 
+ // POST - Borrow a book using Sequelize
+app.post("/loans", async (req, res) => {
+  try {
+    const { member_id, book_id } = req.body ?? {};
+
+    // Validate required IDs
+    if (
+      !Number.isSafeInteger(member_id) ||
+      member_id <= 0 ||
+      !Number.isSafeInteger(book_id) ||
+      book_id <= 0
+    ) {
+      res.status(400).json({
+        message: "Valid member_id and book_id are required",
+      });
+      return;
+    }
+
+    // Check if member exists
+    const member = await Member.findByPk(member_id);
+
+    if (!member) {
+      res.status(404).json({
+        message: "Member not found",
+      });
+      return;
+    }
+
+    // Check if book exists
+    const book = await Book.findByPk(book_id);
+
+    if (!book) {
+      res.status(404).json({
+        message: "Book not found",
+      });
+      return;
+    }
+
+    // Create a new loan
+    const loan = await Loan.create({
+      member_id,
+      book_id,
+    });
+
+    res.status(201).json(loan);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+});
+
+ // GET a member with their borrowed books using Sequelize
+app.get("/members/:id/loans", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate member ID
+    if (
+      !/^[1-9]\d*$/.test(id) ||
+      !Number.isSafeInteger(Number(id))
+    ) {
+      res.status(400).json({
+        message: "Invalid member id",
+      });
+      return;
+    }
+
+    // Find member and include borrowed books
+    const member = await Member.findByPk(Number(id), {
+      include: [
+        {
+          model: Book,
+          as: "borrowedBooks",
+          through: {
+            attributes: [
+              "id",
+              "loan_date",
+              "returned_at",
+            ],
+          },
+        },
+      ],
+    });
+
+    // Check if member exists
+    if (!member) {
+      res.status(404).json({
+        message: "Member not found",
+      });
+      return;
+    }
+
+    res.status(200).json(member);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+});
+
 
 const PORT = process.env.PORT || 3000;
 

@@ -1,6 +1,5 @@
 import express from "express";
 import dotenv from "dotenv";
-import { pool } from "./db.js";
 import Book from "./models/Book.js";
 import { ForeignKeyConstraintError } from "sequelize";
 import Author from "./models/Author.js";
@@ -210,43 +209,76 @@ app.put("/books/:id", async (req, res) => {
 });
 
 
-// PATCH partially update a book
+
+ // PATCH - Partially update a book using Sequelize
 app.patch("/books/:id", async (req, res) => {
   try {
     const { id } = req.params;
+    const { title, genre, published_year } = req.body ?? {};
 
-    if (!Number.isInteger(Number(id))) {
+    // Validate book ID
+    if (
+      !/^[1-9]\d*$/.test(id) ||
+      !Number.isSafeInteger(Number(id))
+    ) {
       res.status(400).json({ message: "Invalid book id" });
       return;
     }
 
-    const { title, genre, published_year } = req.body ?? {};
+    // Prepare only the fields provided
+    const updates: {
+      title?: string;
+      genre?: string | null;
+      published_year?: number | null;
+    } = {};
 
-    if (
-      title === undefined &&
-      genre === undefined &&
-      published_year === undefined
-    ) {
-      res.status(400).json({ message: "Request body cannot be empty" });
+    if (title !== undefined) {
+      if (typeof title !== "string" || !title.trim()) {
+        res.status(400).json({ message: "Invalid title" });
+        return;
+      }
+      updates.title = title.trim();
+    }
+
+    if (genre !== undefined) {
+      if (genre !== null && typeof genre !== "string") {
+        res.status(400).json({ message: "Invalid genre" });
+        return;
+      }
+      updates.genre = genre;
+    }
+
+    if (published_year !== undefined) {
+      if (
+        published_year !== null &&
+        !Number.isInteger(published_year)
+      ) {
+        res.status(400).json({ message: "Invalid published year" });
+        return;
+      }
+      updates.published_year = published_year;
+    }
+
+    // Reject empty or unsupported updates
+    if (Object.keys(updates).length === 0) {
+      res.status(400).json({
+        message: "Request body cannot be empty",
+      });
       return;
     }
 
-    const result = await pool.query(
-      `UPDATE books
-       SET title = COALESCE($1, title),
-           genre = COALESCE($2, genre),
-           published_year = COALESCE($3, published_year)
-       WHERE id = $4
-       RETURNING *`,
-      [title ?? null, genre ?? null, published_year ?? null, id]
-    );
+    // Find book using Sequelize
+    const book = await Book.findByPk(Number(id));
 
-    if (result.rows.length === 0) {
+    if (!book) {
       res.status(404).json({ message: "Book not found" });
       return;
     }
 
-    res.status(200).json(result.rows[0]);
+    // Update only the supplied fields
+    await book.update(updates);
+
+    res.status(200).json(book);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
@@ -289,36 +321,47 @@ app.delete("/books/:id", async (req, res) => {
 
 
 
-// GET all authors
+
+ // GET all authors using Sequelize
 app.get("/authors", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM authors ORDER BY id");
-    res.status(200).json(result.rows);
+    const authors = await Author.findAll({
+      order: [["id", "ASC"]],
+    });
+
+    res.status(200).json(authors);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-// POST a new author
+
+
+ // POST a new author using Sequelize
 app.post("/authors", async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name } = req.body ?? {};
 
-    if (!name) {
-      res.status(400).json({ message: "Author name is required" });
+    // Validate author name
+    if (typeof name !== "string" || !name.trim()) {
+      res.status(400).json({
+        message: "Author name is required",
+      });
       return;
     }
 
-    const result = await pool.query(
-      "INSERT INTO authors (name) VALUES ($1) RETURNING *",
-      [name]
-    );
+    // Create author using Sequelize
+    const author = await Author.create({
+      name: name.trim(),
+    });
 
-    res.status(201).json(result.rows[0]);
+    res.status(201).json(author);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({
+      message: "Server error",
+    });
   }
 });
 

@@ -7,7 +7,9 @@ describe("Pizza Shop Unit Tests", () => {
 
     expect(pizza).toEqual({ type: "margherita", price: 100 });
   });
-
+test("orderPizza returns true for vegetarian pizza", () => {
+    expect(orderPizza("vegetarian")).toBe(true);
+  });
 
 test("createPizza accepts vegetarian pizza for 110 SEK", () => {
   const pizza = createPizza("vegetarian");

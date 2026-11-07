@@ -31,4 +31,3 @@ export const findBook = (title: unknown): Book => {
 
   return BookSchema.parse(book);
 };
-

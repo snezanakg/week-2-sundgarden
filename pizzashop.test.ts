@@ -1,5 +1,11 @@
 import { describe, test, expect } from "vitest";
-import { createPizza, orderPizza, sendOrder } from "./pizzashop";
+
+import {
+  createPizza,
+  sendOrder,
+  orderPizza,
+  chargeCustomer,
+} from "./pizzashop";
 
 describe("Pizza Shop Unit Tests", () => {
   test("createPizza returns correct type and price", () => {
@@ -40,4 +46,27 @@ test("createPizza accepts vegetarian pizza for 110 SEK", () => {
 
     expect(result).toBe(true);
   });
+
+test("chargeCustomer returns true for a valid order", () => {
+  expect(chargeCustomer(42, 100)).toBe(true);
+});
+
+test("chargeCustomer throws when order ID is undefined", () => {
+  expect(() => chargeCustomer(undefined, 100)).toThrow(
+    "Cannot charge the customer without a valid order ID!"
+  );
+});
+
+test("chargeCustomer throws for a negative order ID", () => {
+  expect(() => chargeCustomer(-1, 100)).toThrow();
+});
+
+test("chargeCustomer throws for a decimal order ID", () => {
+  expect(() => chargeCustomer(12.5, 100)).toThrow();
+});
+
+test("chargeCustomer throws when amount is zero", () => {
+  expect(() => chargeCustomer(42, 0)).toThrow();
+});
+
 });

@@ -17,3 +17,20 @@ a vegetarian property.
 Vitest still ran the code because TypeScript checks types
 during development, while Zod validates data at runtime.
 Vitest does not automatically run the TypeScript type checker.
+
+
+
+## Exercise 2 - Testing chargeCustomer
+
+### Question
+What was the bug, and what does that tell you about testing error messages?
+
+### Answer
+The bug was a spelling mistake in the error message.
+The word "customer" was written as "cutomer".
+
+The function worked, but the error message was wrong.
+The test helped me find the mistake.
+
+This shows that we should also test error messages,
+not just check if a function throws an error.

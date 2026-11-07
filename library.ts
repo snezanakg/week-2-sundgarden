@@ -23,7 +23,12 @@ export const BookSchema = z.object({
 // TypeScript type from Zod
 export type Book = z.infer<typeof BookSchema>;
 
-// We will implement this after writing the tests
-export const findBook = (_title: unknown): Book => {
-  throw new Error("Not implemented yet");
+
+
+export const findBook = (title: unknown): Book => {
+  const validTitle = BookTitleSchema.parse(title);
+  const book = catalogue[validTitle];
+
+  return BookSchema.parse(book);
 };
+

@@ -32,6 +32,14 @@ export const findBook = (title: unknown): Book => {
   return BookSchema.parse(book);
 };
 
-export const checkOutBook = (_book: unknown): number => {
-  throw new Error("Not implemented yet");
+
+export const checkOutBook = (book: unknown): number => {
+  const validBook = BookSchema.parse(book);
+
+  if (validBook.copiesAvailable === 0) {
+    throw new Error("No copies available");
+  }
+
+  return Math.floor(Math.random() * 9000) + 1000;
 };
+

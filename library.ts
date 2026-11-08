@@ -53,18 +53,26 @@ export const LoanSchema = z.object({
 
 export type Loan = z.infer<typeof LoanSchema>;
 
+
 export const registerLoan = (
-  _loanId: unknown,
-  _title: unknown,
-  _memberId: unknown
+  loanId: unknown,
+  title: unknown,
+  memberId: unknown
 ): Loan => {
-  throw new Error("Not implemented yet");
+  return LoanSchema.parse({
+    loanId,
+    title,
+    memberId,
+  });
 };
 
 export const borrowBook = (
-  _title: unknown,
-  _memberId: unknown
+  title: unknown,
+  memberId: unknown
 ): Loan => {
-  throw new Error("Not implemented yet");
-};
+  const book = findBook(title);
 
+  const loanId = checkOutBook(book);
+
+  return registerLoan(loanId, book.title, memberId);
+};

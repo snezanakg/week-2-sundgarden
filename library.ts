@@ -31,3 +31,7 @@ export const findBook = (title: unknown): Book => {
 
   return BookSchema.parse(book);
 };
+
+export const checkOutBook = (_book: unknown): number => {
+  throw new Error("Not implemented yet");
+};

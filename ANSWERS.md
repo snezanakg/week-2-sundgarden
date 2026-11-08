@@ -91,3 +91,27 @@ possible loan IDs.
 
 This would help make sure the function always returns a
 number between 1000 and 9999.
+
+
+## Exercise 6 - registerLoan and borrowBook
+
+### Question
+In the Foundation test, the error comes from checkOutBook,
+but we only called borrowBook. What does that show about how
+errors travel through a chain of functions?
+
+### Answer
+When one function calls another function, an error can
+travel back through the chain.
+
+In this case, borrowBook calls findBook and then
+checkOutBook.
+
+Because Foundation has no available copies, checkOutBook
+throws an error.
+
+The error reaches borrowBook and then the test because
+it is not caught inside the functions.
+
+This shows why integration tests are important.
+They check how different functions work together.

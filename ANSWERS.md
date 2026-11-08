@@ -34,3 +34,43 @@ The test helped me find the mistake.
 
 This shows that we should also test error messages,
 not just check if a function throws an error.
+
+
+
+## Exercise 3 - Testing Zod Schemas
+
+### Question
+Why use toEqual() instead of toBe() when comparing objects?
+
+### Answer
+We use toEqual() because it compares the values inside
+an object.
+
+toBe() checks if two objects are exactly the same
+object in memory.
+
+Two objects can have the same properties and values
+but still be different objects.
+
+That is why toEqual() is better for comparing objects
+in our tests.
+
+
+## Exercise 4 - findBook
+
+### What I did
+I created a small library catalogue with three books:
+Dune, Neuromancer and Foundation.
+
+I used Zod to validate the book titles and the number
+of available copies.
+
+I created the findBook() function to find a book
+in the catalogue.
+
+I also wrote four unit tests to check valid and
+invalid inputs.
+
+Finding a book is different from borrowing it.
+The findBook() function only returns book information.
+It does not check out the book.

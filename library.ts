@@ -43,3 +43,28 @@ export const checkOutBook = (book: unknown): number => {
   return Math.floor(Math.random() * 9000) + 1000;
 };
 
+
+
+export const LoanSchema = z.object({
+  loanId: z.number().int().positive(),
+  title: BookTitleSchema,
+  memberId: z.number().int().positive(),
+});
+
+export type Loan = z.infer<typeof LoanSchema>;
+
+export const registerLoan = (
+  _loanId: unknown,
+  _title: unknown,
+  _memberId: unknown
+): Loan => {
+  throw new Error("Not implemented yet");
+};
+
+export const borrowBook = (
+  _title: unknown,
+  _memberId: unknown
+): Loan => {
+  throw new Error("Not implemented yet");
+};
+

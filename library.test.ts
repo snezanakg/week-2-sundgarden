@@ -1,6 +1,10 @@
 
 import { describe, expect, test } from "vitest";
-import { findBook,checkOutBook } from "./library";
+import {
+  findBook,
+  checkOutBook,
+  registerLoan,
+} from "./library";
 
 describe("Library - findBook", () => {
   test("finds Dune with 3 available copies", () => {
@@ -51,6 +55,28 @@ describe("Library - checkOutBook", () => {
 
   test("throws when copiesAvailable is missing", () => {
     expect(() => checkOutBook({ title: "dune" })).toThrow();
+  });
+});
+
+
+
+describe("Library - registerLoan", () => {
+  test("registers a valid loan", () => {
+    expect(registerLoan(1234, "dune", 7)).toEqual({
+      loanId: 1234,
+      title: "dune",
+      memberId: 7,
+    });
+  });
+
+  test("rejects member ID zero", () => {
+    expect(() => registerLoan(1234, "dune", 0)).toThrow();
+  });
+
+  test("rejects an unknown book title", () => {
+    expect(() =>
+      registerLoan(1234, "harry potter", 7)
+    ).toThrow();
   });
 });
 

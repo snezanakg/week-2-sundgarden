@@ -74,3 +74,20 @@ invalid inputs.
 Finding a book is different from borrowing it.
 The findBook() function only returns book information.
 It does not check out the book.
+
+
+
+## Exercise 5 - checkOutBook
+
+### Question
+Could the random number test pass by luck even if the code was wrong? How could you make it more trustworthy?
+
+### Answer
+Yes, the test could pass by luck because the loan ID is random.
+
+To make the test more reliable, I could mock Math.random()
+and test specific values, including the lowest and highest
+possible loan IDs.
+
+This would help make sure the function always returns a
+number between 1000 and 9999.

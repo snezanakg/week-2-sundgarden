@@ -33,3 +33,26 @@ request URL, browser information and breadcrumbs.
 
 This helped me understand where the error happened
 without adding that information manually.
+
+
+
+
+## Exercise 3 - Middleware order
+
+### What happened when I moved the Sentry handler?
+
+I moved the Sentry error handler above the debug route
+to see what would happen.
+
+Sentry still recorded the error. The event count
+increased from 1 to 2.
+
+This happened because Sentry also has automatic
+Express error monitoring.
+
+However, the error handler should still be placed
+after the routes because Express runs middleware
+in the order it is registered.
+
+After testing, I moved the handler back to the
+correct position.

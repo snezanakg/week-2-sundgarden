@@ -1,3 +1,6 @@
+
+import "./instrument.js";
+import * as Sentry from "@sentry/node";
 import express from "express";
 import dotenv from "dotenv";
 import Book from "./models/Book.js";
@@ -508,6 +511,8 @@ app.get("/members/:id/loans", async (req, res) => {
 
 
 const PORT = process.env.PORT || 3000;
+
+Sentry.setupExpressErrorHandler(app);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

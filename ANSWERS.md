@@ -56,3 +56,35 @@ in the order it is registered.
 
 After testing, I moved the handler back to the
 correct position.
+
+
+
+## Exercise 4 - Catch the errors you already catch
+
+### Why do we need Sentry.captureException(error)?
+
+When an error is caught inside a try/catch block,
+Express does not automatically pass it to the
+Sentry error handler.
+
+By adding Sentry.captureException(error), we can
+report the error to Sentry while still returning
+a controlled response to the client.
+
+### What happened during testing?
+
+I temporarily changed the database password in
+my .env file to simulate a database connection error.
+
+When I opened GET /books, the API returned:
+
+{"message": "Server error"}
+
+Sentry recorded a SequelizeConnectionError with
+the message "password authentication failed".
+
+The error appeared under issue WEEK-2-SUNDGARDEN-2,
+with two recorded events.
+
+After testing, I restored the correct database
+password and confirmed that GET /books worked again.

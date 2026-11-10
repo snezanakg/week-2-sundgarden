@@ -86,10 +86,14 @@ const books = await Book.findAll({
 });
 
     res.status(200).json(books);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
+
+   
+} catch (error) {
+  Sentry.captureException(error);
+  console.error(error);
+  res.status(500).json({ message: "Server error" });
+}
+
 });
 
 
@@ -119,10 +123,14 @@ app.get("/books/:id", async (req, res) => {
 
     // Return the book as JSON
     res.status(200).json(book);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
+
+   
+} catch (error) {
+  Sentry.captureException(error);
+  console.error(error);
+  res.status(500).json({ message: "Server error" });
+}
+
 });
 
 
@@ -151,9 +159,8 @@ app.post("/books", async (req, res) => {
     });
 
     res.status(201).json(book);
+ 
   } catch (error) {
-    console.error(error);
-
     // Handle invalid author foreign key
     if (error instanceof ForeignKeyConstraintError) {
       res.status(400).json({
@@ -161,6 +168,10 @@ app.post("/books", async (req, res) => {
       });
       return;
     }
+
+    // Send unexpected database errors to Sentry
+    Sentry.captureException(error);
+    console.error(error);
 
     res.status(500).json({ message: "Server error" });
   }
@@ -205,10 +216,13 @@ app.put("/books/:id", async (req, res) => {
     });
 
     res.status(200).json(book);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
+    
+} catch (error) {
+  Sentry.captureException(error);
+  console.error(error);
+  res.status(500).json({ message: "Server error" });
+}
+
 });
 
 
@@ -282,10 +296,13 @@ app.patch("/books/:id", async (req, res) => {
     await book.update(updates);
 
     res.status(200).json(book);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
+ 
+} catch (error) {
+  Sentry.captureException(error);
+  console.error(error);
+  res.status(500).json({ message: "Server error" });
+}
+
 });
 
  // DELETE a book using Sequelize
@@ -315,10 +332,13 @@ app.delete("/books/:id", async (req, res) => {
     await book.destroy();
 
     res.status(200).json(book);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
+ 
+} catch (error) {
+  Sentry.captureException(error);
+  console.error(error);
+  res.status(500).json({ message: "Server error" });
+}
+
 });
 
 
@@ -333,10 +353,13 @@ app.get("/authors", async (req, res) => {
     });
 
     res.status(200).json(authors);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
+ 
+} catch (error) {
+  Sentry.captureException(error);
+  console.error(error);
+  res.status(500).json({ message: "Server error" });
+}
+
 });
 
 
@@ -360,12 +383,13 @@ app.post("/authors", async (req, res) => {
     });
 
     res.status(201).json(author);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "Server error",
-    });
-  }
+  
+} catch (error) {
+  Sentry.captureException(error);
+  console.error(error);
+  res.status(500).json({ message: "Server error" });
+}
+
 });
 
 
@@ -400,10 +424,13 @@ app.get("/authors/:id/books", async (req, res) => {
     }
 
     res.status(200).json(author);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
+ 
+} catch (error) {
+  Sentry.captureException(error);
+  console.error(error);
+  res.status(500).json({ message: "Server error" });
+}
+
 });
 
  // POST - Borrow a book using Sequelize
@@ -451,12 +478,13 @@ app.post("/loans", async (req, res) => {
     });
 
     res.status(201).json(loan);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "Server error",
-    });
-  }
+ 
+} catch (error) {
+  Sentry.captureException(error);
+  console.error(error);
+  res.status(500).json({ message: "Server error" });
+}
+
 });
 
  // GET a member with their borrowed books using Sequelize
@@ -501,12 +529,13 @@ app.get("/members/:id/loans", async (req, res) => {
     }
 
     res.status(200).json(member);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "Server error",
-    });
-  }
+  
+} catch (error) {
+  Sentry.captureException(error);
+  console.error(error);
+  res.status(500).json({ message: "Server error" });
+}
+
 });
 
 

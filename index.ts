@@ -512,6 +512,13 @@ app.get("/members/:id/loans", async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
+ // Exercise 2 - Test Sentry error reporting
+if (process.env.NODE_ENV !== "production") {
+  app.get("/debug-sentry", (_req, _res) => {
+    throw new Error("My first Sentry error!");
+  });
+}
+
 Sentry.setupExpressErrorHandler(app);
 
 app.listen(PORT, () => {

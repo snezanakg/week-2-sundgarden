@@ -67,7 +67,7 @@ app.get("/books", async (req, res) => {
       return;
     }
 
-   
+
 const books = await Book.findAll({
   ...(genre
     ? { where: { genre: String(genre) } }
@@ -87,7 +87,7 @@ const books = await Book.findAll({
 
     res.status(200).json(books);
 
-   
+
 } catch (error) {
   Sentry.captureException(error);
   console.error(error);
@@ -124,7 +124,7 @@ app.get("/books/:id", async (req, res) => {
     // Return the book as JSON
     res.status(200).json(book);
 
-   
+
 } catch (error) {
   Sentry.captureException(error);
   console.error(error);
@@ -159,7 +159,7 @@ app.post("/books", async (req, res) => {
     });
 
     res.status(201).json(book);
- 
+
   } catch (error) {
     // Handle invalid author foreign key
     if (error instanceof ForeignKeyConstraintError) {
@@ -178,7 +178,7 @@ app.post("/books", async (req, res) => {
 });
 
 
- 
+
  // PUT update a book using Sequelize
 app.put("/books/:id", async (req, res) => {
   try {
@@ -216,7 +216,7 @@ app.put("/books/:id", async (req, res) => {
     });
 
     res.status(200).json(book);
-    
+
 } catch (error) {
   Sentry.captureException(error);
   console.error(error);
@@ -296,7 +296,7 @@ app.patch("/books/:id", async (req, res) => {
     await book.update(updates);
 
     res.status(200).json(book);
- 
+
 } catch (error) {
   Sentry.captureException(error);
   console.error(error);
@@ -332,7 +332,7 @@ app.delete("/books/:id", async (req, res) => {
     await book.destroy();
 
     res.status(200).json(book);
- 
+
 } catch (error) {
   Sentry.captureException(error);
   console.error(error);
@@ -353,7 +353,7 @@ app.get("/authors", async (req, res) => {
     });
 
     res.status(200).json(authors);
- 
+
 } catch (error) {
   Sentry.captureException(error);
   console.error(error);
@@ -383,7 +383,7 @@ app.post("/authors", async (req, res) => {
     });
 
     res.status(201).json(author);
-  
+
 } catch (error) {
   Sentry.captureException(error);
   console.error(error);
@@ -424,7 +424,7 @@ app.get("/authors/:id/books", async (req, res) => {
     }
 
     res.status(200).json(author);
- 
+
 } catch (error) {
   Sentry.captureException(error);
   console.error(error);
@@ -478,7 +478,7 @@ app.post("/loans", async (req, res) => {
     });
 
     res.status(201).json(loan);
- 
+
 } catch (error) {
   Sentry.captureException(error);
   console.error(error);
@@ -529,7 +529,7 @@ app.get("/members/:id/loans", async (req, res) => {
     }
 
     res.status(200).json(member);
-  
+
 } catch (error) {
   Sentry.captureException(error);
   console.error(error);

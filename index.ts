@@ -1,5 +1,5 @@
-
 import "./instrument.js";
+import { reportError } from "./utils/reportError.js";
 import * as Sentry from "@sentry/node";
 import express from "express";
 import dotenv from "dotenv";
@@ -96,8 +96,9 @@ const books = await Book.findAll({
     res.status(200).json(books);
 
 
+
 } catch (error) {
-  Sentry.captureException(error);
+  reportError(error, "books");
   console.error(error);
   res.status(500).json({ message: "Server error" });
 }
@@ -134,7 +135,7 @@ app.get("/books/:id", async (req, res) => {
 
 
 } catch (error) {
-  Sentry.captureException(error);
+  reportError(error, "books");
   console.error(error);
   res.status(500).json({ message: "Server error" });
 }
@@ -178,7 +179,7 @@ app.post("/books", async (req, res) => {
     }
 
     // Send unexpected database errors to Sentry
-    Sentry.captureException(error);
+   reportError(error, "books");
     console.error(error);
 
     res.status(500).json({ message: "Server error" });
@@ -225,11 +226,13 @@ app.put("/books/:id", async (req, res) => {
 
     res.status(200).json(book);
 
+
 } catch (error) {
-  Sentry.captureException(error);
+  reportError(error, "books");
   console.error(error);
   res.status(500).json({ message: "Server error" });
 }
+
 
 });
 
@@ -305,11 +308,13 @@ app.patch("/books/:id", async (req, res) => {
 
     res.status(200).json(book);
 
+
 } catch (error) {
-  Sentry.captureException(error);
+  reportError(error, "books");
   console.error(error);
   res.status(500).json({ message: "Server error" });
 }
+
 
 });
 
@@ -341,11 +346,13 @@ app.delete("/books/:id", async (req, res) => {
 
     res.status(200).json(book);
 
+
 } catch (error) {
-  Sentry.captureException(error);
+  reportError(error, "books");
   console.error(error);
   res.status(500).json({ message: "Server error" });
 }
+
 
 });
 
@@ -362,8 +369,9 @@ app.get("/authors", async (req, res) => {
 
     res.status(200).json(authors);
 
+
 } catch (error) {
-  Sentry.captureException(error);
+  reportError(error, "authors");
   console.error(error);
   res.status(500).json({ message: "Server error" });
 }
@@ -392,11 +400,13 @@ app.post("/authors", async (req, res) => {
 
     res.status(201).json(author);
 
+
 } catch (error) {
-  Sentry.captureException(error);
+  reportError(error, "authors");
   console.error(error);
   res.status(500).json({ message: "Server error" });
 }
+
 
 });
 
@@ -433,11 +443,13 @@ app.get("/authors/:id/books", async (req, res) => {
 
     res.status(200).json(author);
 
+
 } catch (error) {
-  Sentry.captureException(error);
+  reportError(error, "authors");
   console.error(error);
   res.status(500).json({ message: "Server error" });
 }
+
 
 });
 
@@ -487,11 +499,13 @@ app.post("/loans", async (req, res) => {
 
     res.status(201).json(loan);
 
+
 } catch (error) {
-  Sentry.captureException(error);
+  reportError(error, "loans");
   console.error(error);
   res.status(500).json({ message: "Server error" });
 }
+
 
 });
 
@@ -546,11 +560,13 @@ Sentry.setTag("feature", "loans");
 
     res.status(200).json(member);
 
+
 } catch (error) {
-  Sentry.captureException(error);
+  reportError(error, "loans");
   console.error(error);
   res.status(500).json({ message: "Server error" });
 }
+
 
 });
 

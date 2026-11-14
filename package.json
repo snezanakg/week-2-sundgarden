@@ -16,6 +16,7 @@
     "sequelize": "^6.37.8"
   },
   "devDependencies": {
+    "@sonar/scan": "^4.4.0",
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.4",
     "@types/pg": "^8.23.1",

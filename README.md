@@ -1,4 +1,3 @@
-
 # Week 11 - Sentry Error Monitoring
 
 A TypeScript Express library API using Sequelize,

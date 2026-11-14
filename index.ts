@@ -53,6 +53,14 @@ app.get("/", (req, res) => {
 
  // GET all books using Sequelize
 app.get("/books", async (req, res) => {
+
+Sentry.addBreadcrumb({
+  message: "Fetch books route",
+  level: "info",
+});
+
+Sentry.setTag("feature", "books");
+
   try {
     const { genre, sort } = req.query;
 
@@ -489,6 +497,14 @@ app.post("/loans", async (req, res) => {
 
  // GET a member with their borrowed books using Sequelize
 app.get("/members/:id/loans", async (req, res) => {
+
+Sentry.addBreadcrumb({
+  message: "Fetch member loans route",
+  level: "info",
+});
+
+Sentry.setTag("feature", "loans");
+
   try {
     const { id } = req.params;
 
@@ -541,16 +557,16 @@ app.get("/members/:id/loans", async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-// Exercise 3 - Test incorrect middleware order
-Sentry.setupExpressErrorHandler(app);
 
- // Exercise 2 - Test Sentry error reporting
+// Exercise 2 - Test Sentry error reporting
 if (process.env.NODE_ENV !== "production") {
   app.get("/debug-sentry", (_req, _res) => {
     throw new Error("My first Sentry error!");
   });
 }
 
+// Sentry error handler must come after all routes
+Sentry.setupExpressErrorHandler(app);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

@@ -88,3 +88,46 @@ with two recorded events.
 
 After testing, I restored the correct database
 password and confirmed that GET /books worked again.
+
+
+
+
+## Exercise 5 - Breadcrumbs and Tags
+
+### What are breadcrumbs?
+
+Breadcrumbs show what happened before an error.
+They help developers understand which actions led
+to the problem.
+
+I added breadcrumbs to two routes:
+- GET /books - "Fetch books route"
+- GET /members/:id/loans - "Fetch member loans route"
+
+### What are tags?
+
+Tags are labels used to organize and filter
+errors in Sentry.
+
+I added these feature tags:
+- feature: books
+- feature: loans
+
+### What happened during testing?
+
+I temporarily used an incorrect database password
+to generate database errors.
+
+Sentry recorded a SequelizeConnectionError.
+
+I confirmed that the Books event showed the
+"Fetch books route" breadcrumb and the
+"feature: books" tag.
+
+I also found the "Fetch member loans route"
+breadcrumb in the Loans event.
+
+Breadcrumbs and tags make it easier to understand
+where an error happened and which feature was affected.
+
+After testing, I restored the database connection.

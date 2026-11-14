@@ -131,3 +131,22 @@ Breadcrumbs and tags make it easier to understand
 where an error happened and which feature was affected.
 
 After testing, I restored the database connection.
+
+
+
+
+## Exercise 6 - Reusable Error Helper
+
+I created `utils/reportError.ts` to avoid repeating the
+same Sentry code in every route.
+
+The helper uses `Sentry.withScope()` to add a feature tag
+and `Sentry.captureException()` to report the error.
+
+I updated all 11 database routes to use the helper.
+
+I tested it with an error called "Exercise 6 helper test".
+Sentry successfully received the event.
+
+This makes the code cleaner, easier to maintain,
+and keeps error reporting consistent.

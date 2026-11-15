@@ -108,7 +108,12 @@ const books = await Book.findAll({
 
 
  // GET one book by ID using Sequelize
+
 app.get("/books/:id", async (req, res) => {
+  Sentry.addBreadcrumb({
+  message: "Fetch book by ID",
+  level: "info",
+});
   try {
     const { id } = req.params;
 
@@ -145,6 +150,10 @@ app.get("/books/:id", async (req, res) => {
 
  // POST a new book using Sequelize
 app.post("/books", async (req, res) => {
+  Sentry.addBreadcrumb({
+    message: "Create book",
+    level: "info",
+  });
   try {
     const {
       title,
@@ -189,7 +198,12 @@ app.post("/books", async (req, res) => {
 
 
  // PUT update a book using Sequelize
-app.put("/books/:id", async (req, res) => {
+
+ app.put("/books/:id", async (req, res) => {
+   Sentry.addBreadcrumb({
+    message: "Update book",
+    level: "info",
+  });
   try {
     const { id } = req.params;
     const { title, genre, published_year } = req.body ?? {};
@@ -240,6 +254,10 @@ app.put("/books/:id", async (req, res) => {
 
  // PATCH - Partially update a book using Sequelize
 app.patch("/books/:id", async (req, res) => {
+    Sentry.addBreadcrumb({
+    message: "Partially update book",
+    level: "info",
+  });
   try {
     const { id } = req.params;
     const { title, genre, published_year } = req.body ?? {};
@@ -320,6 +338,10 @@ app.patch("/books/:id", async (req, res) => {
 
  // DELETE a book using Sequelize
 app.delete("/books/:id", async (req, res) => {
+    Sentry.addBreadcrumb({
+    message: "Delete book",
+    level: "info",
+  });
   try {
     const { id } = req.params;
 
@@ -362,6 +384,10 @@ app.delete("/books/:id", async (req, res) => {
 
  // GET all authors using Sequelize
 app.get("/authors", async (req, res) => {
+    Sentry.addBreadcrumb({
+    message: "Fetch authors",
+    level: "info",
+  });
   try {
     const authors = await Author.findAll({
       order: [["id", "ASC"]],
@@ -382,6 +408,10 @@ app.get("/authors", async (req, res) => {
 
  // POST a new author using Sequelize
 app.post("/authors", async (req, res) => {
+    Sentry.addBreadcrumb({
+    message: "Create author",
+    level: "info",
+  });
   try {
     const { name } = req.body ?? {};
 
@@ -413,6 +443,10 @@ app.post("/authors", async (req, res) => {
 
  // GET an author with their books using Sequelize
 app.get("/authors/:id/books", async (req, res) => {
+    Sentry.addBreadcrumb({
+    message: "Fetch books by author",
+    level: "info",
+  });
   try {
     const { id } = req.params;
 
@@ -455,6 +489,10 @@ app.get("/authors/:id/books", async (req, res) => {
 
  // POST - Borrow a book using Sequelize
 app.post("/loans", async (req, res) => {
+    Sentry.addBreadcrumb({
+    message: "Create loan",
+    level: "info",
+  });
   try {
     const { member_id, book_id } = req.body ?? {};
 

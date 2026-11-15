@@ -571,7 +571,7 @@ Sentry.setTag("feature", "loans");
 });
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 
 // Exercise 2 - Test Sentry error reporting

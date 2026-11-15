@@ -19,6 +19,16 @@ for development and production.
 
 ## Exercise 2 - Your first error report
 
+### Why is it useful that Sentry groups the same errors?
+
+Sentry groups repeated errors into one issue.
+This helps developers see how often a problem happens
+without investigating the same error many times.
+
+For example, when I used an incorrect database password,
+Sentry grouped the database connection errors together.
+This makes it easier to find and prioritize problems.
+
 ### What information did Sentry record automatically?
 
 Sentry recorded the error message, the file and line
@@ -94,16 +104,30 @@ password and confirmed that GET /books worked again.
 
 ## Exercise 5 - Breadcrumbs and Tags
 
+### When would breadcrumbs and tags help my team?
+
+For example, if the loans API fails, a breadcrumb can show
+that the application was trying to fetch member loans.
+
+The feature tag "loans" helps the team filter errors
+related to loans instead of searching through all errors.
+
+Together, breadcrumbs and tags help developers find
+and understand problems faster.
+
+
 ### What are breadcrumbs?
 
 Breadcrumbs show what happened before an error.
 They help developers understand which actions led
 to the problem.
 
-I added breadcrumbs to two routes:
+I initially added breadcrumbs to two routes:
 - GET /books - "Fetch books route"
 - GET /members/:id/loans - "Fetch member loans route"
-
+After receiving feedback, I also added breadcrumbs
+to the remaining database routes, so all 11 routes
+now include breadcrumbs.
 ### What are tags?
 
 Tags are labels used to organize and filter

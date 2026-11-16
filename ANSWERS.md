@@ -196,3 +196,20 @@ the same at 9.
 The analysis completed successfully, confirming that
 unnecessary files were excluded while my TypeScript
 source code remained included.
+
+
+
+
+**********## Problems I Had During the Assignment**********
+
+I had some problems connecting SonarScanner to my first SonarQube project. I kept getting a **401 Unauthorized** error, even after trying to fix the token.
+
+We decided to create a new SonarQube project, `week11-sonarqube-new`, and repeat the scans. I also had an issue because my `.env` file wasn't loading the token correctly. After fixing that, everything worked.
+
+SonarQube found **5 maintainability issues** (4 Low and 1 Medium). Some examples were:
+
+- Using `void` instead of top-level `await`.
+- Converting values to strings without checking their type.
+- Using a deprecated Sentry function.
+
+In the end, the scans worked, the Quality Gate passed, and I learned more about authentication, scanner configuration, and code quality.

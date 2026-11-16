@@ -161,3 +161,38 @@ npm run sonar
 
 The analysis completed successfully using the
 Sonar way comprehensive TypeScript quality profile.
+
+## Exercise 5 - Scan Only Your Code
+
+### Why should we exclude generated files and dependencies?
+
+We should exclude generated files and dependencies because
+they are not part of the source code we directly maintain.
+
+Scanning them can add unnecessary files to the analysis,
+produce irrelevant findings, and make the results harder
+to understand.
+
+### Which files did I exclude?
+
+I configured sonar.exclusions in sonar-project.properties
+to exclude:
+
+- node_modules/** - installed dependencies
+- dist/** - compiled output
+- coverage/** - generated test coverage reports
+- .scannerwork/** - temporary SonarQube scanner files
+- screenshots/** - assignment screenshots
+
+### What changed after applying the exclusions?
+
+Before adding exclusions, SonarQube indexed 23 files.
+
+After adding exclusions, it indexed 17 files.
+
+The number of TypeScript source files analyzed stayed
+the same at 9.
+
+The analysis completed successfully, confirming that
+unnecessary files were excluded while my TypeScript
+source code remained included.

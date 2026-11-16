@@ -119,3 +119,45 @@ Sentry monitors errors while the application is running
 and helps developers investigate them.
 
 These tools work together, but they have different purposes.
+
+## Exercise 4 - Scanner Configuration
+
+### Why should we keep the SonarQube token out of the code?
+
+A SonarQube token is used for authentication.
+If we write it directly in the source code and push it
+to GitHub, other people might be able to use it.
+
+I stored my token in a private .env file instead.
+The .env file is ignored by Git, so it will not
+be included in normal commits.
+
+I also created .env.example to show which environment
+variables are needed without exposing their values.
+
+### Why use sonar-project.properties?
+
+The sonar-project.properties file stores the
+configuration for the SonarQube scanner.
+
+It specifies the project key, project name,
+version, and location of the source code.
+
+This makes the configuration easier to manage
+and means I do not need to type all the settings
+manually every time.
+
+### How did I run the analysis?
+
+I installed @sonar/scan and dotenv-cli as
+development dependencies.
+
+I added an npm script that loads the environment
+variables from .env and starts SonarScanner.
+
+I ran:
+
+npm run sonar
+
+The analysis completed successfully using the
+Sonar way comprehensive TypeScript quality profile.

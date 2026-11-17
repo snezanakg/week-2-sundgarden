@@ -95,3 +95,31 @@ This showed me that the agent could choose which action was needed instead of fo
 If OpenWeatherMap offered an MCP server, the agent could connect to its tools using the standard MCP protocol.
 
 One advantage is that different AI applications could discover and use the same tools without needing a separate custom integration for each application.
+
+## Exercise 4 - Build Your Own Tool with an HTTP Request
+
+### Question 1: Explain API, HTTP request, and function in your own words. Use the vending machine example and an example from your Express API.
+
+An **API** is a way for two applications to communicate. I think of it like a vending machine that offers different things we can choose from.
+
+An **HTTP request** is like pressing a button on the vending machine to ask for something. The machine receives the request and gives a response.
+
+A **function** is the code that performs a specific task. In the vending machine example, it could be the mechanism that selects and delivers the drink.
+
+In my Express API, I used routes such as `GET /books`. When a client sends a GET request to that endpoint, the server runs code to retrieve the books and returns the result as JSON.
+
+For this exercise, I used an HTTP GET request to retrieve air-quality data from Open-Meteo.
+
+### Question 2: What happened when you changed the tool description to something vague, like "tool"?
+
+I first gave my Get air quality tool a clear description explaining what it does and when the agent should use it.
+
+Then I changed the description to just `tool` and tested the agent again.
+
+Surprisingly, my agent still used both Get weather and Get air quality. The workflow completed successfully and gave me advice about running outside.
+
+In my test, the answer did not change dramatically.
+
+However, I understand that clear descriptions are important because they help the AI decide which tool to use. A vague description could cause problems when the agent has more tools or receives different questions.
+
+After testing, I changed the description back to the original one.

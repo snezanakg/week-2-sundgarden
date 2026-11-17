@@ -68,3 +68,30 @@ text an AI model can process.
 
 For my simple agent, a context window of 5 is enough
 for the assignment.
+## Exercise 3 - Your First Tool
+
+### Question 1: Which questions made the agent use the weather tool, and which didn't? How did it decide?
+
+When I first asked if I needed an umbrella, the agent asked where I was located instead of using the weather tool.
+
+After I told it I was in Gothenburg, Sweden, it used **Get weather** and gave me an answer based on the weather data.
+
+When I asked if I needed a jacket tonight, it also used the weather tool.
+
+When I asked what 12 times 7 is, it answered **84** without using the weather tool.
+
+The agent decided which tool to use based on my question. It used weather information when relevant but didn't need it for a maths question.
+
+### Question 2: What is the difference between an agent and an automation?
+
+An automation follows the same predefined steps every time.
+
+My AI agent worked differently. In the execution logs, I could see that it called the weather tool for weather-related questions but not for the maths question.
+
+This showed me that the agent could choose which action was needed instead of following a fixed sequence.
+
+### Question 3: What would change if OpenWeatherMap offered an MCP server? Name one advantage.
+
+If OpenWeatherMap offered an MCP server, the agent could connect to its tools using the standard MCP protocol.
+
+One advantage is that different AI applications could discover and use the same tools without needing a separate custom integration for each application.

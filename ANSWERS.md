@@ -123,3 +123,32 @@ In my test, the answer did not change dramatically.
 However, I understand that clear descriptions are important because they help the AI decide which tool to use. A vague description could cause problems when the agent has more tools or receives different questions.
 
 After testing, I changed the description back to the original one.
+
+## Exercise 5 - Write a Real Prompt
+
+### Question 1: Compare the bad prompt and the structured prompt. Give two concrete differences.
+
+I first tested my agent with the simple system message "Help the user."
+
+Surprisingly, it still gave useful answers about running, cycling and walking outside.
+
+After adding a structured prompt, I noticed two differences:
+
+1. **The answers were better organized.** The agent followed the same structure: weather, air quality, recommendation, and what to wear or bring.
+2. **The advice was more focused.** The agent explained possible risks, such as cold temperatures and slippery roads, and gave practical clothing suggestions.
+
+I also noticed that the agent sometimes reused previous weather information instead of calling the tools again, even with the improved prompt.
+
+### Question 2: Which of the six parts made the biggest difference, and why?
+
+I think the Output part made the biggest difference because it told the agent exactly how to organize its answers.
+
+The Tools and Constraints sections were also useful because they explained when to check weather data and why the agent shouldn't invent information.
+
+### Question 3: Why would skills be better than one huge prompt?
+
+A system prompt is sent to the model with every message, but a skill can be loaded only when the agent needs it.
+
+If an agent had ten different jobs, putting all the instructions into one huge prompt would make it harder to maintain and could waste tokens.
+
+With skills, each job can have its own instructions, and the agent only loads the relevant ones when needed.

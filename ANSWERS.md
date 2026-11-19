@@ -152,3 +152,44 @@ A system prompt is sent to the model with every message, but a skill can be load
 If an agent had ten different jobs, putting all the instructions into one huge prompt would make it harder to maintain and could waste tokens.
 
 With skills, each job can have its own instructions, and the agent only loads the relevant ones when needed.
+## Exercise 6 - Break It on Purpose
+
+### My three error tests
+
+| What I broke | Which node failed | Error message | What the message told me |
+|---|---|---|---|
+| Changed the Open-Meteo URL to an incorrect address | Get air quality | The resource you are requesting could not be found | The API couldn't find the endpoint because I made a typo in the URL. |
+| Entered an invalid city name | Get weather | city not found | OpenWeatherMap couldn't find the city I entered. |
+| Changed the HTTP method from GET to POST | Get air quality | Can't decode data without a content type | The request wasn't valid for the API in this configuration. I needed to use GET instead. |
+
+### Using AI to understand an error
+
+I shared a screenshot with ChatGPT showing the HTTP Request tool using POST and the error "Can't decode data without a content type".
+
+ChatGPT helped me understand that I was using the wrong HTTP method and advised me to change it back to GET.
+
+The advice was correct. After restoring the settings, I tested the workflow again and both tools worked successfully.
+
+### Question 1: Why is an error that gives a wrong answer more dangerous than a red error message?
+
+A red error message tells me something went wrong, so I know I need to investigate.
+
+A wrong answer is more dangerous because everything might look successful, even though the information isn't correct.
+
+During my tests, the AI Agent could still finish the workflow even when a tool failed. This showed me why I shouldn't trust an answer just because the workflow says it succeeded.
+
+### Question 2: What is similar and different between finding errors in n8n and Sentry?
+
+Both n8n and Sentry help developers find and understand errors.
+
+In n8n, I can open the execution logs, see which node failed, and read the error message. It is very visual and easy to follow.
+
+In Sentry, I can see errors from my application, including stack traces and information about where the problem happened.
+
+The main difference is that n8n shows errors in a workflow with connected nodes, while Sentry focuses on monitoring errors in running applications.
+
+### Final result
+
+After testing all three errors, I restored the correct city, API URL, and HTTP method.
+
+I ran the workflow again, and both Get weather and Get air quality completed successfully.

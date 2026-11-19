@@ -1,0 +1,179 @@
+{
+  "name": "Morning Outdoor Briefing",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -304,
+        -32
+      ],
+      "id": "7f66f6d8-6d2c-4ee3-96d2-848c3610b70c",
+      "name": "Morning Outdoor Briefing"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Prepare my morning outdoor activity briefing for Gothenburg, Sweden. Check the current weather and air quality using both tools. Tell me whether it's a good day for walking, running, or cycling, and what I should wear. Keep the report short and practical.",
+        "options": {
+          "systemMessage": "\nROLE:\nYou are a friendly Outdoor Activity Assistant for people in Gothenburg, Sweden.\n\nTASK:\nHelp users decide whether to run, cycle, walk, or exercise outside based on current weather and air quality.\n\nINPUT:\nUse the user's request, conversation context, and real data from your tools.\n\nTOOLS:\n- Get weather: Check current temperature, wind, precipitation, and weather conditions.\n- Get air quality: Check the European Air Quality Index and pollution levels.\n- Use both tools for the morning outdoor briefing.\n\nCONSTRAINTS:\n- Never invent weather or air-quality readings.\n- Use real tool results when current information is needed.\n- Explain if information is unavailable.\n- Do not present current weather as a future forecast.\n- Consider cold, rain, wind, and slippery conditions.\n- Keep advice practical and easy to understand.\n\nOUTPUT:\nOrganize the answer into:\n1. Weather\n2. Air quality\n3. Recommendation\n4. What to wear or bring\n\nKeep the briefing short and helpful.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        32,
+        -112
+      ],
+      "id": "cf1675d9-c40b-4459-a4ba-87f334414cd3",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        64
+      ],
+      "id": "4c74ad23-cd4f-4125-a379-69442f3e70ab",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "gF4o50JIqZlYMI6F",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "morning-outdoor-briefing"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        800,
+        176
+      ],
+      "id": "78750b04-265c-4206-8e65-f9c6b26c3aae",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "cityName": "Gothenburg"
+      },
+      "type": "n8n-nodes-base.openWeatherMapTool",
+      "typeVersion": 1.1,
+      "position": [
+        848,
+        80
+      ],
+      "id": "a3f46254-5b78-4493-bea7-e7a41574f274",
+      "name": "Get weather",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "T6IHkTfHOuzlwKMj",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Gets the current air quality for Gothenburg, Sweden. Use this tool when the user asks about air quality, pollution, or whether it is a good day to exercise outside.",
+        "url": "https://air-quality-api.open-meteo.com/v1/air-quality?latitude=57.7089&longitude=11.9746&current=european_aqi,pm2_5,pm10&timezone=Europe%2FStockholm",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        944,
+        176
+      ],
+      "id": "817337d9-d4e9-4f71-a040-02a419304747",
+      "name": "Get air quality"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get weather": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get air quality": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Morning Outdoor Briefing": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "32175cc1-4c9f-4c01-99f5-553233cb1bd9",
+  "meta": {
+    "instanceId": "0d55aaca53d5f06fa4cfd16c6ecc09ee59953770c57df86199dac337c160e0ce"
+  },
+  "nodeGroups": [],
+  "id": "gsKbswJGrid9frKO",
+  "tags": []
+}

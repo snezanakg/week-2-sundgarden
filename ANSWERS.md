@@ -51,3 +51,27 @@ After pushing the fix, all three GitHub Actions jobs turned green. I then merged
 **Why is a red CI check useful?**
 
 A red check tells me something is wrong before I merge code into the main assignment branch. It helps me find errors early instead of discovering them later when the application is running.
+
+## Exercise 4 – Check Types in CI
+
+For this exercise, I added `npm run typecheck` to my GitHub Actions workflow, between installing dependencies and running tests.
+
+The script was already in `package.json`, so I only needed to update `ci.yml`.
+
+I tested it by adding this line to `library.ts`:
+
+`const copies: number = "three";`
+
+TypeScript found an error because I assigned a string to a number.
+
+GitHub Actions also detected the error and stopped before running the tests.
+
+After removing the incorrect line, I ran the type check and tests again. Everything passed locally, and all three CI jobs turned green.
+
+I merged Pull Request #18 into `week12/ci-clean`.
+
+**Would this step have caught the possibly null bug from Week 11, Exercise 9?**
+
+It could have caught the bug if TypeScript knew that the value might be `null` and strict null checking was enabled.
+
+However, type checking cannot catch every runtime error. It depends on how the values and types are defined.

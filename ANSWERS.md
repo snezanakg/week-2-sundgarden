@@ -75,3 +75,19 @@ I merged Pull Request #18 into `week12/ci-clean`.
 It could have caught the bug if TypeScript knew that the value might be `null` and strict null checking was enabled.
 
 However, type checking cannot catch every runtime error. It depends on how the values and types are defined.
+
+## Exercise 5 – Pick Your Node Versions
+
+For this exercise, I used Node.js 22.x, 24.x and 26.x in my GitHub Actions workflow.
+
+I also added an `engines` field to `package.json` to specify Node.js 22 or newer.
+
+All three CI jobs passed successfully, and I merged Pull Request #19 into `week12/ci-clean`.
+
+### What is the difference between `npm ci` and `npm install`, and why does CI use `npm ci`?
+
+`npm install` installs dependencies and can update the `package-lock.json` file if needed.
+
+`npm ci` installs dependencies using the exact versions recorded in `package-lock.json`. It also starts with a clean installation and doesn't change the lockfile.
+
+CI uses `npm ci` because we want the same dependencies every time the tests run. This makes the results more predictable and helps avoid problems caused by different package versions.

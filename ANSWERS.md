@@ -32,3 +32,22 @@ All three jobs passed. Each job ran 34 tests across 5 test files, including my l
 Tests can behave differently because my computer and GitHub Actions might use different operating systems, Node.js versions, dependencies, or environment variables.
 
 For example, my tests might work on Windows but have problems on Ubuntu. CI helps catch these differences before code gets merged.
+## Exercise 3 – Red on Purpose
+
+For this exercise, I created a separate branch called `week12/red` and added a test that intentionally failed.
+
+The test expected `2 + 2` to equal `5`, even though the correct answer is `4`.
+
+I opened Pull Request #17 and checked the GitHub Actions results. The Node.js 22 job failed, while the other two jobs were cancelled because of the matrix fail-fast behavior.
+
+In the logs, I found the error:
+
+`AssertionError: expected 4 to be 5`
+
+I corrected the test to expect `4`, ran the tests locally, and got all 35 tests passing.
+
+After pushing the fix, all three GitHub Actions jobs turned green. I then merged the pull request into `week12/ci-clean`.
+
+**Why is a red CI check useful?**
+
+A red check tells me something is wrong before I merge code into the main assignment branch. It helps me find errors early instead of discovering them later when the application is running.

@@ -91,3 +91,23 @@ All three CI jobs passed successfully, and I merged Pull Request #19 into `week1
 `npm ci` installs dependencies using the exact versions recorded in `package-lock.json`. It also starts with a clean installation and doesn't change the lockfile.
 
 CI uses `npm ci` because we want the same dependencies every time the tests run. This makes the results more predictable and helps avoid problems caused by different package versions.
+
+## Exercise 6 – Protect the CI Branch
+
+For this exercise, I configured branch protection for `week12/ci-clean` in GitHub.
+
+I enabled the requirement to use pull requests and added the three CI checks for Node.js 22, 24 and 26.
+
+To test the protection, I created a separate branch with an intentionally failing test and opened Pull Request #20.
+
+GitHub showed one failed check and two cancelled checks. All three checks were marked as required, and the normal merge button was disabled.
+
+I saved a screenshot of the result and closed the pull request without merging the broken code.
+
+### What does branch protection do that CI alone can't?
+
+CI can run tests and tell me when something fails, but branch protection can enforce rules before changes are merged.
+
+It helps prevent code with failing checks from being merged into an important branch. It can also require developers to use pull requests instead of pushing changes directly.
+
+This makes the development process safer and helps keep the main project working.
